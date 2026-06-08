@@ -6,7 +6,7 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from Step03_rag_answer_demo import answer_with_llm
+from rag.Step03_rag_answer_demo import answer_with_llm
 
 
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
