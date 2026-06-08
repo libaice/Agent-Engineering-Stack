@@ -47,7 +47,13 @@ def load_excel_as_row_chunks(file_path: str) -> List[Dict[str, Any]]:
     return chunks
 
 
-def main():
+def load_table(path: str, sheet_name:str = 0) -> pd.DataFrame:
+    df = pd.read_excel(path, sheet_name=sheet_name)
+    df.columns = [str(col).strip() for col in df.columns]
+    return df
+
+
+def SemanticCheck():
     chunks = load_excel_as_row_chunks("data/excel/vendor_evaluation.xlsx")
     print(f"Total row chunks: {len(chunks)}")
     print("=" * 80)
@@ -56,6 +62,32 @@ def main():
         print(f'source={chunk["source"]} sheet={chunk["sheet_name"]} row={chunk["row_index"]}')
         print(chunk["text"])
         print("-" * 80)
+
+def PandasQuery():
+    df = load_table("data/excel/vendor_evaluation.xlsx")
+    print("Columns:")
+    # print(df.columns.tolist())
+
+    print("\nPreview:")
+    print(df.head())
+    
+
+    # Security Score sum
+    print(df["Security Score"].sum())
+
+    print("\nTechnical Score >= 85的客户:")
+    top = df[df["Technical Score"] >= 85]
+    print(top)
+
+    print("\n状态Watch :")
+    print(df[df["Status"] == "Watch"])
+
+
+
+def main():
+    pass
+    #SemanticCheck();
+    # PandasQuery();
 
 
 if __name__ == "__main__":
