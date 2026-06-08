@@ -120,6 +120,15 @@ def print_report(results: List[Dict[str, Any]]) -> None:
         print(r["answer"])
         print("-" * 80)
 
+
+        # token_usage
+        # cost
+        # groundedness_score
+        # faithfulness_score
+        # answer_relevance
+        # context_precision
+        # context_recall
+
 def main():
 
     file_path = "data/project.pdf"
