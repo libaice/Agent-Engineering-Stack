@@ -1,14 +1,15 @@
 {
-  "created_at": "2026-06-08T12:27:48.572540Z",
+  "created_at": "2026-06-08T13:01:52.580534Z",
   "embedding_model": "BAAI/bge-small-zh-v1.5",
   "chunk_size": 800,
   "overlap": 120,
-  "num_documents": 3,
-  "num_chunks": 27,
+  "num_documents": 4,
+  "num_chunks": 43,
   "embedding_dim": 512,
   "source_files": [
-    "ai_native_engineering_platform_blueprint.pdf",
+    "vendor_evaluation.xlsx",
+    "rag_ingestion_incident_postmortem.pdf",
     "enterprise_rag_quality_benchmark_report.pdf",
-    "rag_ingestion_incident_postmortem.pdf"
+    "ai_native_engineering_platform_blueprint.pdf"
   ]
 }

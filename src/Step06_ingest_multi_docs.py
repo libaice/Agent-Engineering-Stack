@@ -8,7 +8,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from Step01_pdf_chunk_demo import load_pdf_by_page, chunk_text
-
+from Step07_excel_query_demo import load_excel_as_row_chunks
 
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
 
@@ -47,12 +47,24 @@ def load_and_chunk_pdf(file_path: Path, document_id: str) -> List[Dict[str, Any]
     return chunks
 
 
+def load_and_chunk_excel(file_path: Path, document_id: str) -> List[Dict[str, Any]]:
+    chunks = load_excel_as_row_chunks(str(file_path))
+    for i, chunk in enumerate(chunks):
+        chunk["document_id"] = document_id
+        chunk["chunk_index"] = i
+        chunk["chunk_id"] = (
+            f"{document_id}:sheet:{chunk['sheet_name']}:row:{chunk['row_index']}"
+        )
+    return chunks
+
+
 def make_document_id(i: int) -> str:
     return f"doc_{i:04d}"
 
 
-def discover_pdf_documents(docs_dir: Path) -> List[Path]:
-    return sorted(docs_dir.glob("*.pdf"))
+def discover_documents(docs_dir: Path) -> List[Path]:
+    supported = [".pdf", ".xlsx", ".xls"]
+    return [f for f in docs_dir.iterdir() if f.suffix.lower() in supported]
 
 
 def save_json(data: Any, path: Path) -> None:
@@ -76,30 +88,33 @@ def build_faiss_index(chunks: List[Dict[str, Any]], model_name: str):
 
 def main():
     STORAGE_DIR.mkdir(parents=True, exist_ok=True)
-    pdf_files = discover_pdf_documents(DOCS_DIR)
-    if not pdf_files:
+    files = discover_documents(DOCS_DIR)
+    if not files:
         raise FileNotFoundError(f"No PDF files found in {DOCS_DIR}")
 
     documents = []
     all_chunks = []
 
-    for i, pdf_path in enumerate(pdf_files, start=1):
+    for i, file_path in enumerate(files, start=1):
         document_id = make_document_id(i)
-        print(f"Ingesting {pdf_path.name} as {document_id}...")
+        suffix = file_path.suffix.lower()
+        print(f"Ingesting {file_path.name} as {document_id}...")
 
         documents.append(
             {
                 "document_id": document_id,
-                "source": pdf_path.name,
-                "file_path": str(pdf_path),
-                "file_type": "pdf",
+                "source": file_path.name,
+                "file_path": str(file_path),
+                "file_type": suffix.lstrip('.'),
             }
         )
 
-        chunks = load_and_chunk_pdf(
-            file_path=pdf_path,
-            document_id=document_id,
-        )
+        if suffix == ".pdf":
+            chunks = load_and_chunk_pdf(file_path, document_id)
+        elif suffix in {".xlsx", ".xls"}:
+            chunks = load_and_chunk_excel(file_path, document_id)
+        else:
+            continue
         all_chunks.extend(chunks)
 
     print(f"Total documents: {len(documents)}")
