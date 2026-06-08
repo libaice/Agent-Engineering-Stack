@@ -4,8 +4,8 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from pdf_chunk_demo import chunk_pdf
-from vector_search_demo import SimpleVectorStore
+from Step01_pdf_chunk_demo import chunk_pdf
+from Step02_vector_search_demo import SimpleVectorStore
 
 load_dotenv()
 

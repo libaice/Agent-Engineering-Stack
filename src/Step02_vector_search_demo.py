@@ -4,7 +4,7 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from pdf_chunk_demo import chunk_pdf
+from Step01_pdf_chunk_demo import chunk_pdf
 
 
 class SimpleVectorStore:
