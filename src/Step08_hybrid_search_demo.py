@@ -23,6 +23,7 @@ def load_chunks(path: Path) -> List[Dict[str, Any]]:
 def tokenize_zh(text: str) -> List[str]:
     return [tok.strip() for tok in jieba.lcut(text) if tok.strip()]
 
+
 class HybridSearchStore:
     def __init__(
         self,
@@ -46,19 +47,52 @@ class HybridSearchStore:
             )
 
         # 3. bm25
-        self.tokenized_corpus = [
-            tokenize_zh(doc["text"]) for doc in self.documents
-        ]
+        self.tokenized_corpus = [tokenize_zh(doc["text"]) for doc in self.documents]
         self.bm25 = BM25Okapi(self.tokenized_corpus)
 
-    
     def vector_search(self, query: str, top_k: int = 10) -> List[Dict[str, Any]]:
-        pass
+        query_embedding = self.embedding_model.encode(
+            [query],
+            normalize_embeddings=True,
+        )
+        query_embedding = np.array(query_embedding).astype("float32")
 
+        scores, indices = self.faiss_index.search(query_embedding, top_k)
+
+        results = []
+        for score, idx in zip(scores[0], indices[0]):
+            idx = int(idx)
+            doc = self.documents[idx]
+            results.append(
+                {
+                    "idx": idx,
+                    "score": float(score),
+                    "method": "vector",
+                    "document": doc,
+                }
+            )
+        return results
 
     def bm25_search(self, query: str, top_k: int = 10) -> List[Dict[str, Any]]:
-        pass
-    
+        tokenized_query = tokenize_zh(query)
+        scores = self.bm25.get_scores(tokenized_query)
+        top_indices = np.argsort(scores)[::-1][:top_k]
+
+        results = []
+        for idx in top_indices:
+            idx = int(idx)
+            score = float(scores[idx])
+            doc = self.documents[idx]
+            results.append(
+                {
+                    "idx": idx,
+                    "score": score,
+                    "method": "bm25",
+                    "document": doc,
+                }
+            )
+        return results
+
     def hybrid_search(
         self,
         query: str,
@@ -67,8 +101,70 @@ class HybridSearchStore:
         vector_weight: float = 0.5,
         bm25_weight: float = 0.5,
     ) -> List[Dict[str, Any]]:
-        pass
 
+        vector_results = self.vector_search(query, top_k=candidate_k)
+        bm25_results = self.bm25_search(query, top_k=candidate_k)
+
+        vector_scores = normalize_scores([r["score"] for r in vector_results])
+        bm25_scores = normalize_scores([r["score"] for r in bm25_results])
+
+        merged: Dict[int, Dict[str, Any]] = {}
+
+        for result, norm_score in zip(vector_results, vector_scores):
+            idx = result["idx"]
+            if idx not in merged:
+                merged[idx] = {
+                    "idx": idx,
+                    "document": result["document"],
+                    "vector_score": 0.0,
+                    "bm25_score": 0.0,
+                    "matched_by": set(),
+                }
+            merged[idx]["vector_score"] = norm_score
+            merged[idx]["matched_by"].add("vector")
+
+        for result, norm_score in zip(bm25_results, bm25_scores):
+            idx = result["idx"]
+
+            if idx not in merged:
+                merged[idx] = {
+                    "idx": idx,
+                    "document": result["document"],
+                    "vector_score": 0.0,
+                    "bm25_score": 0.0,
+                    "matched_by": set(),
+                }
+
+            merged[idx]["bm25_score"] = norm_score
+            merged[idx]["matched_by"].add("bm25")
+
+        final_results = []
+
+        for item in merged.values():
+            hybrid_score = (
+                vector_weight * item["vector_score"] + bm25_weight * item["bm25_score"]
+            )
+            doc = item["document"]
+
+            final_results.append(
+                {
+                    "score": hybrid_score,
+                    "vector_score": item["vector_score"],
+                    "bm25_score": item["bm25_score"],
+                    "matched_by": sorted(list(item["matched_by"])),
+                    "document_id": doc.get("document_id"),
+                    "source": doc.get("source"),
+                    "file_type": doc.get("file_type"),
+                    "page": doc.get("page"),
+                    "sheet_name": doc.get("sheet_name"),
+                    "row_index": doc.get("row_index"),
+                    "chunk_id": doc.get("chunk_id"),
+                    "text": doc.get("text"),
+                }
+            )
+
+        final_results.sort(key=lambda x: x["score"], reverse=True)
+        return final_results[:top_k]
 
 
 def print_results(results: List[Dict[str, Any]]) -> None:
@@ -80,7 +176,7 @@ def print_results(results: List[Dict[str, Any]]) -> None:
             location = f"page={r.get('page')}"
         elif r.get("file_type") in {"xlsx", "xls"}:
             location = f"sheet={r.get('sheet_name')} row={r.get('row_index')}"
-        
+
         print(f"[{i}] hybrid_score={r['score']:.4f}")
         print(f"vector_score={r['vector_score']:.4f} bm25_score={r['bm25_score']:.4f}")
         print(f"matched_by={r['matched_by']}")
@@ -92,6 +188,19 @@ def print_results(results: List[Dict[str, Any]]) -> None:
         )
         print(r["text"][:800])
         print("-" * 80)
+
+
+def normalize_scores(scores: List[float]) -> List[float]:
+    if not scores:
+        return []
+    min_score = min(scores)
+    max_score = max(scores)
+
+    if max_score == min_score:
+        return [1.0 for _ in scores]
+
+    return [(score - min_score) / (max_score - min_score) for score in scores]
+
 
 def main():
     store = HybridSearchStore()
@@ -108,6 +217,7 @@ def main():
             bm25_weight=0.5,
         )
         print_results(results)
+
 
 if __name__ == "__main__":
     main()
