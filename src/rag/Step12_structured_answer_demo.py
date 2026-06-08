@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel, Field, ValidationError
 
-from Step03_rag_answer_demo import format_evidence
+from rag.Step03_rag_answer_demo import format_evidence
 
 
 load_dotenv()

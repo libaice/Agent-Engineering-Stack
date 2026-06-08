@@ -3,9 +3,9 @@ from pathlib import Path
 import time
 from typing import List, Dict, Any
 
-from Step01_pdf_chunk_demo import chunk_pdf
-from Step02_vector_search_demo import SimpleVectorStore
-from Step03_rag_answer_demo import answer_with_llm
+from rag.Step01_pdf_chunk_demo import chunk_pdf
+from rag.Step02_vector_search_demo import SimpleVectorStore
+from rag.Step03_rag_answer_demo import answer_with_llm
 
 
 

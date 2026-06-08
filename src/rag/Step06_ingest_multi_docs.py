@@ -7,8 +7,8 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from Step01_pdf_chunk_demo import load_pdf_by_page, chunk_text
-from Step07_excel_query_demo import load_excel_as_row_chunks
+from rag.Step01_pdf_chunk_demo import load_pdf_by_page, chunk_text
+from rag.Step07_excel_query_demo import load_excel_as_row_chunks
 
 EMBEDDING_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
 

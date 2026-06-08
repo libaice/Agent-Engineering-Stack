@@ -2,8 +2,8 @@ from typing import List, Dict, Any
 
 from sentence_transformers import CrossEncoder
 
-from Step08_hybrid_search_demo import HybridSearchStore, print_results
-from Step03_rag_answer_demo import answer_with_llm
+from rag.Step08_hybrid_search_demo import HybridSearchStore, print_results
+from rag.Step03_rag_answer_demo import answer_with_llm
 
 RERANKER_MODEL_NAME = "BAAI/bge-reranker-base"
 
