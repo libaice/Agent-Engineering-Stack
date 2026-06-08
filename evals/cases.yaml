@@ -4,3 +4,30 @@
     - "文档"
   expected_pages: []
   should_answer: true
+
+- id: case_002
+  question: "这个项目有哪些交付内容？"
+  expected_answer_contains:
+    - "交付"
+  expected_pages: []
+  should_answer: true
+
+
+- id: case_003
+  question: "这个项目的主要风险是什么？"
+  expected_answer_contains:
+    - "风险"
+  expected_pages: []
+  should_answer: true
+
+- id: case_004
+  question: "这个项目创始人是谁？"
+  expected_answer_contains: []
+  expected_pages: []
+  should_answer: false
+
+- id: case_005
+  question: "这个文档有没有提到火星移民计划？"
+  expected_answer_contains: []
+  expected_pages: []
+  should_answer: false
