@@ -48,15 +48,28 @@ class PersistentVectorStore:
 
         for score, idx in zip(scores[0], indices[0]):
             doc = self.documents[idx]
+            # results.append(
+            #     {
+            #         "score": float(score),
+            #         "source": doc["source"],
+            #         "page": doc["page"],
+            #         "chunk_id": doc["chunk_id"],
+            #         "text": doc["text"],
+            #     }
+            # )
             results.append(
                 {
                     "score": float(score),
+                    "document_id": doc["document_id"],
                     "source": doc["source"],
+                    "file_path": doc["file_path"],
+                    "file_type": doc["file_type"],
                     "page": doc["page"],
                     "chunk_id": doc["chunk_id"],
                     "text": doc["text"],
                 }
             )
+
         return results
 
 
@@ -82,12 +95,11 @@ def main():
             )
             print(item["text"][:500])
             print("-" * 80)
-        
+
         answer = answer_with_llm(question, retrieved)
         print("\nAnswer:")
         print("=" * 80)
         print(answer)
-
 
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ def load_pdf_by_page(file_path: str) -> List[Dict[str, Any]]:
     return pages
 
 
-def chuck_text(text: str, chunk_size: int = 1000, overlap: int = 150) -> List[str]:
+def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 150) -> List[str]:
     if chunk_size <= overlap:
         raise ValueError("chuck size is must lager than overlap ")
 
@@ -43,7 +43,7 @@ def chunk_pdf(file_path: str) -> List[Dict[str, Any]]:
     all_chunks = []
 
     for page in pages:
-        chucks = chuck_text(page["text"])
+        chucks = chunk_text(page["text"])
         for chunk_index, chuck in enumerate(chucks):
             all_chunks.append(
                 {

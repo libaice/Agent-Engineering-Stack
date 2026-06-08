@@ -1,266 +1,191 @@
 [
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 1,
-    "chunk_id": "project.pdf:p1:c0",
-    "text": "Evaluated Bid price\n项目发展采购战略 \n简写版 \n2017 年2 月 \n采购指导手册"
+    "chunk_id": "doc_0001:p1:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 1\nAI Native Engineering Platform Blueprint\nRAG / Agent / Eval / Observability 长格式测试文档 - 约 10 页\n1. 文档目的和测试范围\n本文档是一份面向 RAG 与 Agent 工程测试的长格式样例资料。它模拟一家企业准备建设 AI Native Engineering Platform\n时产生的需求说明、系统架构、权限策略、评估体系和上线计划。文档内容故意包含中文段落、英文术语、编号列\n表、表格、风险项、阶段目标和跨页章节，适合用来测试 PDF 解析、chunk 切分、embedding 检索、metadata\n保留、source citation 与问答 groundedness。\n本样例不是某家真实公司的内部资料，但写法接近企业交付文档。建议在 ingestion 后检查\nsource、page、chunk_id、section_title、doc_type 等 metadata\n是否保留，并对正文型问题、表格型问题、跨章节问题分别建立 retrieval eval。\n●测试目标一：验证多页中文 PDF 能否稳定解析，不出现大面积乱码。\n●测试目标二：观察标题、页脚、表格、编号列表是否进入 chunk，并评估是否需要清洗。\n●测试目标三：构造跨文档问题，例如把本需求说明与 Excel 中的供应商评分做联合查询。"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 2,
-    "chunk_id": "project.pdf:p2:c0",
-    "text": "2016 年2 月1 日出版， 第二版 \n版权 © 2016   \n世界银行 \n美国 华盛顿哥伦比亚特区，邮编 DC20433  \n西北区，H 街 1818 号 \n电话: 202-473-1000 \nInternet: www.worldbank.org \n声明 \n这项工作是世界银行工作人员的产品。 这项工作中的发现，解释和结论并不一定反映了世\n行，执行董事会或其所代表的政府的意见。 \n权利和权限 \n本作品材料受版权保护。 世界银行鼓励传播其知识，只要为非商业目的本作品材料可以全部\n或部分地复制。 关于权利和许可证的任何疑问，包括附属权利，请同下述地址联系： \n \n出版人办公室 \n世界银行 \n西北区，H 街 1818 号 \n美国 华盛顿哥伦比亚特区，邮编 DC20433 \n传真: 202-522-2422 \n电子邮箱: pubrights@worldbank.org"
+    "chunk_id": "doc_0001:p2:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 2\n2. 业务背景：研发团队为什么需要 Agent 平台\n大型研发组织的痛点通常不是“缺少一个聊天机器人”，而是知识、代码、需求、测试、部署和审批分散在不同系\n统中。工程师需要在 Jira、飞书、GitHub、Confluence、日志平台和 CI\n系统之间频繁切换，信息断裂会导致交付周期拉长、事故复盘困难、知识沉淀不足。\nAI Native Engineering Platform 的目标是把 Agent 接入研发工作流，让它能够读取需求文档、理解代码仓库、执行受控\n工具、生成测试建议、追踪风险，并在关键节点产出可审计的证据链。平台不是替代工程师，而是把重复性检索、\n整理、校验和报告生成工作自动化。\n业务对象\n当前问题\nAgent 可介入环节\n成功指标\n产品经理\n需求背景散落在多个文档中\n需求摘要、冲突检测、验收标准生成\n需求澄清时间下降 30%\n后端工程师\n修改影响范围难以判断\n代码搜索、调用链分析、测试建议\nPR review 周期下降 20%\nQA 团队\n测试用例覆盖依赖经验\n用例补全、边界条件生成、失败回放\n缺陷逃逸率下降 15%\n运维/SRE\n告警上下文不足\n日志摘要、变更关联、runbook 推荐\nMTTR 下降 25%"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 3,
-    "chunk_id": "project.pdf:p3:c0",
-    "text": "Common abbreviations and defined terms \n本节介绍本指导文件中使用的常用缩写和术语。术语使用大写字母书写。 \n缩写 / 术语 \n完整术语/定义 \nBAFO \n最佳和最终要约。 \n世行 \n国际复兴开发银行和/或国际开发协会（无论是管理自有资金，\n或者是作为管理人管理捐赠人资助的信托基金）。 \n借款人 \n借款人或投资项目贷款（IPF）的收款人。 该术语可能包括参与\n执行IPF项目的借款人的任何实体。 \n竞争性对话 \n第 6.39 至 6.41 条以及附录八所述的货物、工程和非咨询服务的\n一种选择方式。 \n投诉 \n第3.26至3.31条以及附录三所述的与采购有关的投诉。 \n货物 \n一种采购类别，它包括：商品、原材料、机械、设备、车辆、\n工厂及相关服务，如运输、保险、安装、调试、培训和初期维\n护。 \nIBRD \n国际复兴开发银行，世界银行集团的一部分。 \nIDA \n国际开发协会 \nIncoterms \n国际商会（ICC）公布的货物国际贸易术语。 \n初步选择 (IS) \n采购货物、工程或非咨询服务时，在邀请递交建议书前的短名\n单过程。 \n投资项目贷款（IPF） \n世行对减贫和可持续发展的投资项目的贷款。IPF 通常支持既定\n发展目标、活动和成果的项目，且支付特定合格费用的贷款资\n金。 \n非咨讯询服务 \n不是咨询服务类的服务。非咨询服务通常根据可测量的有形产\n品的完成情况而进行招标和签订合同，且完成情况的判定标准\n可明确确定并始终适用的非咨询服务，如钻探、航拍、卫星成\n像、测绘和类似的业务。 \nPESTLE  \n该 PESTLE （政治、经济、社会、技术、法规和环境) 是一个支\n持对此每一项因素进行评估的工具。 \n成套设备 \n与提供装备完善的设施相关的采购类别，例如，基于设计、供\n货、安装、调试、维护、改造和保护的实施。 \n常用缩写和术语定义"
+    "chunk_id": "doc_0001:p3:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 3\n3. 用户角色与权限边界\n企业级 Agent 系统必须先定义权限，而不是先追求“智能”。任何能够访问代码、文档、工单或生产日志的 Agent，\n都应遵守最小权限原则。用户身份、组织角色、项目空间、数据等级和工具调用范围需要在运行时共同决定。\n本平台将用户分为 Viewer、Contributor、Maintainer、Admin 四类角色。Viewer\n只能发起问答与读取公开空间；Contributor 可以在项目空间内创建任务和草稿；Maintainer 可以批准 Agent\n运行受控工具；Admin 管理连接器、审计规则和数据保留策略。\n角色\n可读数据\n可执行操作\n工具权限\n审计要求\nViewer\n公开文档、已授权知识库\n问答、摘要\n无写操作工具\n记录 query 与 source\nContributor\n项目文档、issue、PR\n生成草稿、创建任务\n只读代码搜索、文档检索\n记录 prompt、tool result\nMaintainer\n项目代码、CI 日志\n批准修改建议、触发测试\n受控 terminal、CI rerun\n记录审批人和 diff\nAdmin\n组织配置、审计日志\n管理连接器和策略\n配置级工具权限\n保留 180 天以上\n3.1 权限校验原则\n每次 tool call 之前都应进行授权检查。授权检查不能只发生在 UI 层，也不能只依赖 prompt 约束。系统应在后端 tool\ngateway 中校验 user_id、workspace_id、resource_id、action_type 和\nrisk_level。高风险工具必须要求显式审批，例如删除文件、执行数据库写操作、调用生产环境脚本。"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
+    "page": 3,
+    "chunk_id": "doc_0001:p3:c1",
+    "text": "kspace_id、resource_id、action_type 和\nrisk_level。高风险工具必须要求显式审批，例如删除文件、执行数据库写操作、调用生产环境脚本。"
+  },
+  {
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 4,
-    "chunk_id": "project.pdf:p4:c0",
-    "text": "缩写 / 术语 \n完整术语/定义 \nPPP \n公私合作伙伴关系。 \n资格预审 \n采购货物、工程和非咨询服务时，邀请递交投标书前的短名单\n确定过程。 \n采购方式 \n采购方式是“适合用途”采购的总体设计，以授予合同实现项目\n发展目标和物有所值。 这包括采购安排、采购风险管理、合同\n策略、市场参与、需求起草和合同管理（如适用）。 \n采购安排 \n采购安排是选择方法和市场方法的结合。 \n采购计划 \n参见采购规则第 4.4 和 4.5 条，在法律文件中援引的借款人 IPF \n项目的采购计划。 \n采购过程 \n从鉴别需要开始，计划、编制规范/规格/要求、预算、选择、\n合同授予和合同管理的持续过程。结束于缺陷责任期/质量保证\n期的最后一天。 \n采购规则 \n“世界银行投资项目贷款的借款人采购规则”。 \n项目发展采购战略 (PPSD) \n借款人编制的项目层面的战略文件，说明投资项目贷款的采购\n如何支持项目的发展目标和实现物有所值。 \n建议书 \n响应建议书征询文件，由一方提供货物、工程、非咨询服务、\n或咨询服务给另一方的要约，可包括或不包括报价。 \n建议人 \n响应建议书征询文件提交货物、工程和非咨询服务建议书的单\n独实体或联营体。 \nREOI \n意向书征询函。 \nRFB \n选择方式之一，征询投标书 。 \nRFP \n选择方式之一，征询建议书。 \nRFQ \n选择方式之一，询价。 \n标准采购文件  (SPDs) \n包括由世行发布供 IPF 项目借款人使用的总采购通告、具体采\n购通告、意向书征询函、标准资格预审文件、初步选择文件、\n投标书征询文件和建议书征询文件。 \nSWOT \nSWOT（优势、劣势、机会和威胁）是一种分析工具，可以支\n持借款人能力评估、市场分析和采购风险评估。 \nVfM \n物有所值。"
+    "chunk_id": "doc_0001:p4:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 4\n4. 系统架构概览\n平台采用分层架构：前端工作台负责交互和可视化，后端 orchestrator 管理 Agent 状态，tool gateway\n执行受控工具调用，retrieval service 提供 RAG 检索，eval service 负责离线回放与质量评估。所有关键链路都需要记录\ntrace_id，以便出现错误时进行复盘。\n对于工程面试或 FDE demo，架构图可以被简化为五个模块：User Workspace、Agent Orchestrator、Tool\nGateway、Knowledge Index、Eval & Observability。重点不是组件数量，而是说明每个模块如何降低 Agent\n幻觉、越权、重复调用和成本失控。\n模块\n核心职责\n关键数据\n失败模式\nAgent Orchestrator\n管理 plan、state、step、termination\nrun_id、step_id、state_json\n循环失控、状态污染\nTool Gateway\n统一工具注册、授权、超时、重试\ntool_name、args、result\n越权调用、脏数据返回\nKnowledge Index\n文档解析、chunk、embedding、检索\nchunk_id、source、page\n召回失败、证据噪声\nEval Service\n离线 golden cases 和回放\nexpected_source、actual_source\n只看最终答案不看过程\nObservability\n成本、延迟、错误、用户反馈\nlatency_ms、tokens、cost\n问题不可定位"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
+    "page": 4,
+    "chunk_id": "doc_0001:p4:c1",
+    "text": "最终答案不看过程\nObservability\n成本、延迟、错误、用户反馈\nlatency_ms、tokens、cost\n问题不可定位"
+  },
+  {
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 5,
-    "chunk_id": "project.pdf:p5:c0",
-    "text": "缩写 / 术语 \n完整术语/定义 \n工程 \n一种采购的类别，包括土木工程结构的施工、修复改建、拆\n除、重建、维护，以及相关的服务，如运输、保险、安装、调\n试和培训。"
+    "chunk_id": "doc_0001:p5:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 5\n5. RAG Ingestion 设计要求\nRAG ingestion\n不是简单地把文件丢进向量库。生产级流程应包括文件识别、解析、清洗、结构化切分、表格处理、metadata\n生成、embedding、索引写入和质量抽检。对于\nPDF，应抽样检查中文编码、页眉页脚、目录残留、表格摊平、标题正文混杂和句子硬切断。\n建议对不同文件类型采用不同 parser。普通 PDF 可使用 PyMuPDF 或 pdfplumber；复杂表格文档应使用 table-aware\nparser；Excel 应按 sheet、row range 和 semantic block 建立 chunk；Markdown\n和代码仓库可以按照标题、函数、类和文件路径切分。\n文件类型\n解析策略\n推荐 metadata\n质量检查\nPDF 正文\n按页提取 + 句子感知切分\nsource/page/chunk_id/section\n乱码、页脚、断句\nPDF 表格\n表格转 markdown 或 JSON\ntable_id/page/row_count\n列关系是否保留\nExcel\n按 sheet 和业务区域切分\nsheet_name/range/header\n公式、空行、合并单元格\n代码\n按文件/函数/类切分\nrepo/path/language/symbol\n上下文是否足够\n5.1 Chunk 质量门禁\n低质量 chunk 会直接影响 embedding 和 retrieval。系统应过滤过短文本、纯页码、目录点线、重复页眉页脚和没有语\n义的碎片。对于重要文档，应保留原始文本、清洗后文本和 parser 版本，避免后续无法复现检索结果。\n●最低长度阈值：中文正文建议不少于 80-120 字。\n●目录检测：包含大量点线和页"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
+    "page": 5,
+    "chunk_id": "doc_0001:p5:c1",
+    "text": "过滤过短文本、纯页码、目录点线、重复页眉页脚和没有语\n义的碎片。对于重要文档，应保留原始文本、清洗后文本和 parser 版本，避免后续无法复现检索结果。\n●最低长度阈值：中文正文建议不少于 80-120 字。\n●目录检测：包含大量点线和页码的 chunk 应标记为 toc_noise。\n●表格检测：包含多列枚举、金额、评分、风险矩阵时标记为 table_like。\n●可追溯性：每个答案必须能够追溯到 source、page 和 chunk_id。"
+  },
+  {
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 6,
-    "chunk_id": "project.pdf:p6:c0",
-    "text": "第一章      前言  ....................................................................................................................................... 1 \n第二章      背景  ....................................................................................................................................... 2 \n \n2.1 \n选择合适的 PPSD 方法和模式 ..................................................................................... 2 \n \n2.2  \nPPSD 的准备和项目周期 ............................................................................................... 3 \n第三章       完成项目发展采购战略（PPSD） .............................................................................. 5 \n \n3.1  \n引言  ..................................................................................................................................... 5 \n \n3.2  \n简写版 PPSD 内容  ........................................................................................................... 5 \n \n3.3  \n项目概要 ..........................................................."
+    "chunk_id": "doc_0001:p6:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 6\n6. Agent Workflow 与 Tool Calling\nAgent 工作流应围绕任务状态而不是单次 prompt 组织。每次运行至少包含\nobjective、plan、steps、observations、artifacts、final_answer 和 failure_reason。复杂任务可以采用 Plan-Execute-Replan\n模式：先规划，再执行工具调用，观察结果后决定是否继续、修正或终止。\n工具 schema 设计要足够窄，参数明确，返回结果可压缩。搜索工具不应返回整篇网页，文件工具不应默认返回整份\n文档，terminal 工具必须有工作目录、命令白名单和超时限制。\n工具\n输入参数\n输出结构\n风险控制\nsearch_docs\nquery, top_k, filters\nchunks[], score, metadata\n限制 top_k，记录 score\nread_file\npath, start_line, end_line\ncontent, checksum\n路径白名单\nrun_tests\nrepo, test_target\nexit_code, stdout, stderr\n超时和资源限制\ncreate_ticket\nproject, title, body\nticket_id, url\n需要用户确认"
   },
   {
-    "source": "project.pdf",
-    "page": 6,
-    "chunk_id": "project.pdf:p6:c1",
-    "text": ".......................................................................... 5 \n \n3.3  \n项目概要 ............................................................................................................................. 5 \n \n3.4  \n战略评估运营环境和借款人能力 ................................................................................ 5 \n \n3.5  \n运营环境  ............................................................................................................................ 6 \n3.6  \n对借款人以前经验、能力和项目执行机构 (PIU) 的评估 .................................... 7 \n \n3.7  \n市场研究和分析 ................................................................................................................ 9 \n \n3.8  \n市场分析范围 ................................................................................................................. 10 \n \n3.9  \n市场分析成果  ................................................................................................................ 11 \n \n3.10  \n信息来源 ............................................"
-  },
-  {
-    "source": "project.pdf",
-    "page": 6,
-    "chunk_id": "project.pdf:p6:c2",
-    "text": "....................................................................................... 11 \n \n3.10  \n信息来源 .......................................................................................................................... 11 \n \n3.11  \n市场分析实施 ................................................................................................................. 11 \n \n3.12  \n供应商的优先考虑 ........................................................................................................ 12 \n \n3.13  \n市场介入 .......................................................................................................................... 13 \n第四章    采购风险评估 ..................................................................................................................... 14 \n \n4.1  \n采购风险评估方法 ........................................................................................................ 14 \n第五章         采购目标  ....................................................................................."
-  },
-  {
-    "source": "project.pdf",
-    "page": 6,
-    "chunk_id": "project.pdf:p6:c3",
-    "text": ".......................................... 14 \n第五章         采购目标  ....................................................................................................................... 15 \n第六章         采购选择和建议  ......................................................................................................... 16 \n \n6.1  \n设计采购方案的一般考虑  ......................................................................................... 16 \n \n6.2  \n采购方案设计 ................................................................................................................. 19 \n \n \n目录"
-  },
-  {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 7,
-    "chunk_id": "project.pdf:p7:c0",
-    "text": "6.3  \n要求 ................................................................................................................................... 19 \n \n6.4  \n规范 ................................................................................................................................... 20 \n \n6.5  \n可持续采购  ..................................................................................................................... 20 \n \n6.6  \n合同策略 .......................................................................................................................... 20 \n6.7  \n合同类型 .......................................................................................................................... 20 \n \n6.8  \n价格和费用制定机制 .................................................................................................... 21 \n \n6.9  \n供货商关系 ...................................................................................................................... 21 \n \n6.10 \n价格调整 ...................."
+    "chunk_id": "doc_0001:p7:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 7\n7. Evaluation Harness\nAgent 评估不能只看最终回答是否流畅，而要评估 trajectory。一个高质量 eval harness 应检查检索是否命中正确证据、\n工具调用是否合理、是否出现重复无效调用、是否遵守权限、是否在证据不足时给出\nfallback，以及最终回答是否包含可验证引用。\n建议维护三类 golden cases：事实检索型、流程执行型和失败兜底型。事实检索型关注 answer-source\nmatching；流程执行型关注工具顺序和状态转换；失败兜底型关注系统是否能承认缺少证据，而不是强行编造。\nEval 类型\n检查对象\n通过标准\n失败例子\nRetrieval Eval\ntop-k chunks\ntop-3 包含正确 source\n命中目录而非正文\nTrajectory Eval\ntool calls\n步骤合理且无重复循环\n同一 query 搜索 6 次\nAnswer Eval\nfinal answer\n答案有引用且不越界\n引用不存在的页码\nSafety Eval\npermissions\n高风险工具需要审批\n自动删除用户文件"
   },
   {
-    "source": "project.pdf",
-    "page": 7,
-    "chunk_id": "project.pdf:p7:c1",
-    "text": "................................................................................................................ 21 \n \n6.10 \n价格调整 .......................................................................................................................... 22 \n \n6.11  \n合同格式 (条款和条件) ............................................................................................... 22 \n \n6.12  \n选择方法 .......................................................................................................................... 22 \n \n6.13  \n评审方法 .......................................................................................................................... 23 \n \n6.14  \n确定优先采购方案的选择分析 ................................................................................. 23 \n \n6.15  \n根据采购目标评审采购方案  ..................................................................................... 23 \n6.16  \n评审采购风险建立最佳处理已知风险的采购方案 ............................................. 24 \n \n第七章         对低价值/低风险合同的优先安排 ........"
-  },
-  {
-    "source": "project.pdf",
-    "page": 7,
-    "chunk_id": "project.pdf:p7:c2",
-    "text": "............................ 23 \n6.16  \n评审采购风险建立最佳处理已知风险的采购方案 ............................................. 24 \n \n第七章         对低价值/低风险合同的优先安排 ......................................................................... 25 \n \n第八章         总结PPSD 支持世行项目评估准备工作（PAD） ........................................... 26 \n \n附件一         简写版PPSD 格式  ............................................................................................ 27"
-  },
-  {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 8,
-    "chunk_id": "project.pdf:p8:c0",
-    "text": "Section I. Introduction \n项目采购发展战略（PPSD）是一种用于确定最佳采购方案以实现正确采购结果的方法。 \n \nPPSD 要求借款人考虑市场情况，业务背景，以前的经验和存在的风险，并以此确定正确采购\n方案，获得市场的正确响应。通过设计正确的采购方法，合适的供应商参与的可能性更大，收\n到更好的投标书，实现物有所值（VfM）的总体机会增加。因此，通过适当的分析确定适当的\n采购方案是一项关键活动，继而影响后续采购过程的每一个步骤，及项目的进一步实施。 \n \n本采购指导手册可在起草简写版 PPSD 时使用——格式见附件一。 本指导手册为借款人提供了\n一种结构化的方法，使用一组现代采购工具和技术来实现投资贷款项目（IPF）的物有所值\n（VfM）。 \n \n按照PPSD 整体编制，这些工具的使用和应用需要与开发“适合用途”采购方法所需的市场研究\n和信息水平相对称。不需要使用详细的使用所有的工具，而只是针对单个项目的情况使用最适\n合的工具。借款人至少应使用供应定位（详见PPSD 准备和项目周期）和供应商优先（详见下\n一小节）两种工具，以得到正确的采购方法信息。 \n \n项目采购发展战略（PPSD）的细节程度应与项目的风险、价值、背景、性质和复杂性相匹配。 \n \n本PPSD 指导手册应结合世行的“投资项目贷款的借款人采购规则”一起阅读。 \n \n作为参考，PPSD 完整版指导手册提供了更详细的采购指导，其中有关采购工具和技术的更多\n信息和说明。 世行还有一系列简短说明的视频，解释在PPSD 流程中使用的主要采购工具，请\n参见www.worldbank.org/procurement。已经编制完成的PPSD 简写版案例将在以后出版。\n第一章    前言"
+    "chunk_id": "doc_0001:p8:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 8\n8. 可观测性与成本控制\nAgent 平台上线后，最常见的问题不是模型完全不可用，而是慢、贵、偶发错误和结果不可解释。因此每次 run\n都应记录 token、cost、latency、retrieval time、tool time、model name、retry count、fallback\nreason。没有这些数据，团队无法判断是模型问题、检索问题还是工具问题。\n成本控制可以从三个方向做：减少无效上下文、减少重复工具调用、为不同任务选择不同模型。简单分类、摘要、\n格式化任务不一定需要最强模型；高风险决策、复杂规划和最终交付报告可以使用更强模型。\n指标\n含义\n报警阈值示例\n排查方向\nlatency_ms\n端到端延迟\n> 30s\n工具慢或模型慢\nretrieval_hit_rate\n检索命中率\n< 80%\nchunk 或 query rewrite 问题\ntool_error_rate\n工具失败率\n> 5%\n权限、超时、接口异常\ncost_per_run\n单次运行成本\n> 预期 2 倍\n上下文过长或循环"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 9,
-    "chunk_id": "project.pdf:p9:c0",
-    "text": "Section II. Background \n \nPPSD 和采购计划是借款人准备的文件，是IPF 项目准备过程的一部分。世行审查PPSD 与采\n购计划，一并作为是项目评估的一部分，并不迟于贷款谈判完成，与借款人就采购计划达成\n一致。 \n \n不需要对PPSD 正式审批，PPSD 摘要将构成世行项目评估文件（PAD）的一部分，它总结与\n项目准备有关的所有活动，世行将PPSD 摘要作为整个PAD 文件的一部分，并确定整个文件\n是否可以批准。另外，作为项目准备的一部分，采购计划根据PPSD 分析编制，并需获得世行\n不反对意见。 \n \n在世行认可的自然灾害或人为灾难或冲突而紧急需要援助的情况下，借款人仅需要按实际尽\n可能快地准备一份高水平的的PPSD 概要。在这些情况下，世行可在随后的项目实施期间审查\n详细的PPSD。 \n2.1 \n选择合适的PPSD 方法和模式 \n世行贷款项目的绝大多数需要完成一个简写版PPSD 格式。下表I 详细说明了采购 / 合同的类\n型，采购风险和以价值表示的门槛值，用于确定何时需要 “简写版PPSD”。如果项目的采购范\n围（根据合同类型、成本和采购风险）不包括任何超过下表中门槛值的合同，则通常只需准\n备一个简写版的PPSD。 \n借款人和世行应同意下表中的采购风险评级。借款人和世行也应当同意何时需要一个简写版\n的PPSD。 \n表一- 完成长格式PPSD 的门槛值 \n \n第二章    背景"
+    "chunk_id": "doc_0001:p9:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 9\n9. 上线计划与验收标准\n上线应分为内部 dogfood、试点团队、灰度扩展和组织级推广四个阶段。每个阶段都要设置明确的功能边界和回滚机\n制。第一阶段只允许只读检索和报告生成；第二阶段允许创建 issue 或草稿；第三阶段才逐步开放受控代码修改和 CI\n工具。\n验收标准不应只写“支持智能问答”。更合理的标准是：指定 50 条 golden queries，top-3 retrieval accuracy 不低于\n85%；关键工具调用失败率低于 3%；所有最终答案必须包含 source；高风险工具调用必须有人工审批记录。\n阶段\n范围\n开放能力\n验收指标\nPhase 0\n平台团队\n文档问答、日志摘要\n核心查询命中率 80%\nPhase 1\n两个试点项目\n需求分析、测试建议\n用户满意度 4/5\nPhase 2\n研发部门\nPR 摘要、CI 辅助\n节省工时可量化\nPhase 3\n组织级\n跨系统工作流\n审计和权限全覆盖"
   },
   {
-    "source": "project.pdf",
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
     "page": 10,
-    "chunk_id": "project.pdf:p10:c0",
-    "text": "2.2 \nPPSD 准备和项目周期 \n一旦确定了项目的主要合同，在一个项目周期中，PPSD 的编制应尽可能早地在项目概念阶段\n开始。 \n \nPPSD 为准备采购计划提供依据，其中包括采购合同的描述、采购风险、合同价值、进入市场\n方式和选择方法。应为项目所需的全部合同准备一个单独的PPSD。 PPSD 应详细描述采购方\n法，以便在项目前的（至少）18 个月内对所有进行项目的采购进行详细说明，并应随着重要\n信息获得对其余采购进行更新。因此，在谈判之前，采购计划应该在项目前18 个月制定并得\n到世行同意。采购计划应每12 个月或更早更新一次。采购计划的任何更新都应提交给世行审\n查并得到世行不反对意见。采购计划的任何变更应酌情由借款人通过修订的PPSD 来证明是合\n理的。 \n \n供应定位是一项采购技术，可用于在准备PPSD 时确定研究和分析的重点及后续更新。根据具\n体项目的各自供应风险和项目价值对采购进行分类。 \n \n供应定位应在项目层面进行。然后根据以下供应风险因素对项目内的每项合同进行评估： \na） 借款人的能力和以前在采购和管理这类合同方面的经验； \nb） 确定合同 / 项目或其独特性的难度； \nc） 市场竞争情况和市场潜在供应商数量； \nd） 合同执行风险；和 \ne） 对项目交付和项目开发目标合同的关键重要性。 \n供应风险因素的综合评估应分类，并评级（从高到低）和排名。然后，每个合同应绘制在供\n应定位模型的y 轴上。 \n每个合同的相对成本估算应在x 轴上绘制。合同的相对成本是根据其占整个项目采购成本的比\n例计算而得的。高成本的确定通常是那些项目采购成本估计总额的1％以上的合同。 \n在供应定位模型中，把合同放在四个命名象限之一中制定合同。在此阶段，不应人为分拆合\n同（尽管PPSD 分析完成后可能适用，并确定这是采购方式的一部分），可在后续准备PPSD\n时考虑将小合同打包归类。"
+    "chunk_id": "doc_0001:p10:c0",
+    "text": "AI Native Engineering Platform Blueprint\nPage 10\n10. 附录：建议检索问题\n以下问题用于测试该文档的 RAG 检索效果。建议先不接 LLM，只看 top-k chunk 是否命中正确章节。然后再接\nanswer generation，检查答案是否能正确引用 source/page/chunk_id。\nQuery\nExpected Section\nExpected Evidence\n企业级 Agent\n平台为什么不能只做聊天机器人？\n第 2 章\n研发系统分散、信息断裂、工作流自动化\nMaintainer 能执行哪些操作？\n第 3 章\n批准修改建议、触发测试、受控工具\nRAG ingestion 的质量门禁包括哪些？\n第 5 章\n乱码、页脚、断句、表格、metadata\nAgent eval 为什么要看 trajectory？\n第 7 章\n工具调用、重复循环、权限、fallback\n上线第一阶段应该开放什么能力？\n第 9 章\n只读检索和报告生成"
   },
   {
-    "source": "project.pdf",
-    "page": 11,
-    "chunk_id": "project.pdf:p11:c0",
-    "text": "如果项目中的任何合同被归类为战术获得，这表明供应风险水平相对较低，因此需要相对应\n的较少的研究和分析。如果任何合同被分类为战略安全或战略关键，这表明供应风险相对较\n高，因此需要更高水平的分析，尽职调查和更多的投入。在通常情况下，战术获得合同只需\n将采购方案归纳在附件一（优先安排低价值低风险合同）中的PPSD 格式第六部分。 \n图一 - 供应商定位矩阵 \n \n在供应定位评估完成后，借款人应使用其判断，确保模型上的合同安排是可行的。如果数据\n或信息不存在，借款人应说明其 “假设” 并使用最佳判断。 应在PPSD 编制时对这些“假设”和判\n断做审查，而且如有必要，借款人应重新审视供应定位评估， 是否已确定的“假设”和/或判断\n有任何重大变更。"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 1,
+    "chunk_id": "doc_0002:p1:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 1\nEnterprise RAG Quality Benchmark Report\n多文档 RAG 检索评估与质量门禁样例报告 - 约 8 页\n1. Benchmark 背景与目标\n本报告模拟一个企业 RAG 项目的质量基准测试。测试对象是一组包含 PDF、Excel、Markdown\n和代码片段的混合语料。目标是比较不同 chunk 策略、embedding 模型、rerank\n策略和表格解析方式对检索质量的影响。\n报告强调一个核心观点：RAG 的质量不是由最终回答单独决定，而是由\ningestion、chunk、embedding、retrieval、rerank、answer synthesis 和 citation\n多个环节共同决定。任何一个环节出现缺陷，都可能导致模型生成看似合理但没有证据支撑的答案。\n测试维度\n核心问题\n观测指标\nChunking\n切分是否保留语义完整性？\n断句率、短碎 chunk 占比\nEmbedding\n语义改写能否召回？\ntop-1/top-3 accuracy\nRerank\n是否能把正确证据排到前面？\nMRR、nDCG\nCitation\n答案能否追溯？\nsource coverage、引用准确率"
   },
   {
-    "source": "project.pdf",
-    "page": 12,
-    "chunk_id": "project.pdf:p12:c0",
-    "text": "Section III. Project PPSD Completion \n3.1 \n前言 \n简写版PPSD 格式帮助借款人通过一系列关键阶段，形成采购方案设计，以制定“适合用途”的\n采购安排。 采购方案的设计，应确保供应商（包括承包商和咨询商）有能力提供VfM 和PDO\n是使他们有动力投标 ，最终最合适的供应商被选择中标。 \n3.2 \n简写版PPSD 内容 \n一个 “适合用途” 采购方案应在PPSD 的七个部分中做概述如下： \na） 项目概况； \nb） 运营背景和借款人能力战略评估； \nc） 采购风险分析； \nd） 采购目标； \ne） 采购方法选择和建议； \nf） 低价值低风险合同的优先安排；和 \ng） 支持世行PAD 准备工作的PPSD 汇总。 \n在本指导手册中详细介绍了每个PPSD 部分中应考虑的内容。 \n3.3 \n项目概要 \nPPSD 的这一部分主要是描述性的，其目的是简要总结本项目的规模和要求。 这里所需的大部\n分信息可以从项目概念书中得到。 本节应包括： \na） 项目开发重点目标的总结；和 \nb） 项目说明 - 对于每个合同/分包合同，应简要说明包括成本估算在内的供应商所需的\n内容。 \n3.4 \n战略评估运营环境和借款人能力 \nPPSD 的这一部分评估了能力和风险等三个不同但相互关联的方面： \na) 运营背景； \nb) 借款人能力和项目执行单位（PIU）; 和 c)\n 市场分析。\n本节还旨在提供适当和相称的研究和分析水平，以便为提供证明和所选采购方案提供信息。 \n第三章    完成项目发展采购战略（PPSD）"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 2,
+    "chunk_id": "doc_0002:p2:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 2\n2. 测试语料说明\n本次 benchmark 使用四类文档。第一类是业务需求 PDF，包含章节标题、正文段落和表格。第二类是事故复盘\nPDF，包含 root cause、timeline 和 corrective actions。第三类是供应商评估 Excel，包含评分表、风险登记表和 metadata\nsheet。第四类是简短代码文档，用于测试技术问答和符号级检索。\n混合语料的价值在于测试跨文档问题。例如用户可能问“哪个供应商适合处理 table-aware\nparsing，并且对应风险有哪些”，系统需要同时检索 Excel 中的供应商评分和 PDF 中的 ingestion 风险描述。\n语料\n格式\n页数/行数\n主要挑战\nenterprise_agent_requirements.pdf\nPDF\n约 10 页\n中文章节、表格、权限描述\nrag_ingestion_incident_postmortem.pdf\nPDF\n约 2 页\n中英混合、事故时间线\nvendor_evaluation.xlsx\nExcel\n3 个 sheet\n多 sheet、评分、风险\ncode_notes.md\nMarkdown\n若干段落\n标题层级和代码块"
   },
   {
-    "source": "project.pdf",
-    "page": 13,
-    "chunk_id": "project.pdf:p13:c0",
-    "text": "在PPSD 格式的每个分节末尾，借款人应根据所进行的单个评估做出书面结论。 这些结论应该\n集中于在采购方法中需要考虑和解决的因素，例如借款人的能力建设要求，市场参与方式以\n及每个合同采购方案可用选项的概述。 \n3.5 \n运营环境 \nPPSD 应分析和考虑可能影响采购方式的运营背景因素，供应商参与的动力以及任何后续可能\n成功的合同。 这应该包括： \na） 治理方面：可能引起安全问题的脆弱或受冲突影响方面；国家参与具体经济部门（如\n接受政府补助的国有企业）；可能规范市场/供应商的立法程序；整体法律框架；灾害\n或紧急情况； \nb） 经济方面：可能导致竞争不足或难以吸引国际供应商的小经济体；高通货膨胀可能需\n要使用另一种货币或通货膨胀保护条款来保护供应商，从而激励他们参与；任何可能\n激励本地企业的国内优惠，但危及国际竞争；向供应商准时付款的跟踪记录，和汇率\n波动； \nc） 可持续性方面：可持续采购要求，如使用政府环境标准（例如能源/水效率目标）; 与\n敏感环境中工作相关的社会影响；输入劳动和劳工标准；和 \nd） 技术方面：技术变革速度；需要信息传递和安全，以便不会对供应商持续依赖；互联\n网接入和限制；手机接入和覆盖；用于履行项目的技术机会和技术依赖。 \n \nPESTLE（政治，经济，社会，技术，立法和环境）分析是支持这一评估的工具。 PPSD 完整版\n指导手册中提供了PESTLE 分析的完整说明，下图显示了使用PESTLE 对运营环境评估时要考虑\n的一些要点。"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 3,
+    "chunk_id": "doc_0002:p3:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 3\n3. Chunk 策略实验\n实验比较三种策略：固定字符切分、段落感知切分、句子感知切分。固定字符切分实现最简单，但容易切断句子和\n表格。段落感知切分对文档问答更友好，但当段落过长时仍需兜底切分。句子感知切分通常能提高可读性，但需要\n更复杂的规则处理中文标点、英文缩写和列表。\n结果显示，固定字符切分在 exact match query 上表现尚可，但在 paraphrase query\n上不稳定。段落感知和句子感知策略能够让 top-3 accuracy 提升，尤其是在“为什么低质量 chunk\n会影响检索结果”这类概念型问题上更明显。\n策略\nchunk_size\noverlap\n短碎 chunk\ntop-3 accuracy\n备注\nFixed-800\n800 chars\n100 chars\n12%\n78%\n实现简单，但断句较多\nParagraph-aware\n动态\n段落边界\n7%\n84%\n适合普通 PDF 正文\nSentence-aware\n900 chars\n150 chars\n5%\n88%\n更适合中文问答\nTable-aware hybrid\n正文+表格分流\n按结构\n4%\n91%\n实现复杂但效果最好\n3.1 低质量 chunk 示例\n低质量 chunk\n常见形式包括：只有页码、目录点线、页眉页脚、孤立半句话、表格列头丢失、过长的混合段落。系统应该在\ningestion 阶段标记这些 chunk，而不是等到用户问答失败后再排查。\n●示例一：Text: ..................................................................................... 27\n●示例二：Text: 增加 / 能力而获益？\n●示例"
   },
   {
-    "source": "project.pdf",
-    "page": 14,
-    "chunk_id": "project.pdf:p14:c0",
-    "text": "图二 - 进行PESTLE 分析时要考虑的因素概述 \n \nPESTLE 分析可能会提供大量信息，所以重要的是要考虑哪些发现对采购方案有实际意义。 无\n论是正面的或负面的，首要工作是确定可能会对采购方案产生影响的因素，同时从这些信息\n中得出结论，为正在设计和细化的PPSD 提供信息。 \n \nPESTLE 特别有助于识别风险，这应被视为本指导手册第四部分采购风险管理的一部分。 \n3.6 \n对借款人以前经验、能力和项目执行机构（PIU）的评估 \n这一评估的目的是确定可能对项目实施和正在制定的采购方式产生影响的任何已知因素，包\n括推动因素和制约因素。 这一评估独立于作为项目评估文件一部分，是世行对借款人能力的\n评估。它还应帮助确定任何有针对性的早期干预措施，例如借款人可能从世行或其他来源获\n得的培训或增加支持。 \n \n借款人在评估其能力和资源 “需求” 时应考虑以下因素来规划、设计和实施采购方案： \na） 以前在执行类似和执行世行项目/采购方面的经验/记录（良好和不良）;"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 3,
+    "chunk_id": "doc_0002:p3:c1",
+    "text": "ext: ..................................................................................... 27\n●示例二：Text: 增加 / 能力而获益？\n●示例三：表格被摊平成属性、所选安排、说明、概要/逻辑性，但列关系无法恢复。"
   },
   {
-    "source": "project.pdf",
-    "page": 15,
-    "chunk_id": "project.pdf:p15:c0",
-    "text": "b） 合同管理能力，遵循采购过程中和合同中承诺的能力和跟踪记录； \nc） 按时支付合同款项的记录和市场声誉； \nd） 可信、独立和使各方信任的投诉管理和争议解决制度，并迅速/公平的处理投诉； \ne） 采购能力（以前经验，设计和制定规格的技术能力，投标文件，施工合同监督经验\n（如适用），采购项目的测试，可用资源和跟踪记录），以成功地适应目标采购规划，\n采购过程，投标/建议书评审，供应商选择和合同授予； \nf） 项目实施安排； \ng） 行政安排，包括授权等级，以便及时作出决策； \nh） 检查安排； \ni） 合同打包； \nj） 对专业咨询顾问的依赖，其关键性及使用，如增加借款人能力的咨询商； \nk） 使用替代采购安排的经验；和 \nl） 请求世行给予手把手实施的需求。 \n该分析不仅要关注哪些进展不顺利哪些方面需要改善，而且还要关注哪些进展顺利及为什么？ \n \n考虑的方面包括： \na) 什么是市场位置？ \nb) 哪些供应商投标和哪些供应商拒绝投标，为什么？ \nc) 项目是否按时间、成本和质量实施，为什么，或为什么没有？ \nd) 是否有任何争议，原因是什么？ \ne) 总的来说，是否有良好的市场和供应商参与程度，为什么？ \nf) 使用了什么类型的规范，是否提供了正确的结果，该规范中有哪些内容与本项目/合同\n相关？ \ng) 采用什么类型的采购方式，事后看来，这是否是正确的做法，这种做法能否更有效？ \nh) 合同管理方式是什么？在使项目和供应商保持在正确的控制水平方面是否有效？ \ni) 借款人使用什么员工资源，是否有哪些领域在项目之后被发现，可使借款人通过增加\n能力而获益？"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 4,
+    "chunk_id": "doc_0002:p4:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 4\n4. Retrieval Eval 设计\nRetrieval eval 的最小单元是一条 query、一个 expected source 或 expected chunk，以及 top-k\n结果。早期不需要复杂指标，先人工检查 top-1 是否相关、top-3\n是否包含答案、是否返回目录噪声。稳定之后再引入 MRR、Recall@k、nDCG 和 label-based scoring。\n建议将 query 分成三类：near-exact query、paraphrase query 和 cross-document query。near-exact query\n用于验证链路是否跑通；paraphrase query 用于验证 embedding 语义能力；cross-document query 用于验证 metadata\nfilter、multi-source retrieval 和 answer synthesis。\nQuery 类型\n例子\n目标\n通过标准\nNear-exact\n如果项目中的任何合同被归类为战术获得\n链路验证\nTop-1 命中原文页\nParaphrase\n低风险合同为什么不需要很多分析？\n语义召回\nTop-3 命中相关段落\nCross-document\n哪个供应商最适合表格解析？\n多源检索\n命中 Excel 评分与 PDF 风险\nNegative\n文档有没有提到火星基地预算？\n防幻觉\n返回无证据或低置信度"
   },
   {
-    "source": "project.pdf",
-    "page": 16,
-    "chunk_id": "project.pdf:p16:c0",
-    "text": "使用SWOT（优势，劣势，机会和威胁）分析是可以支持借款人能力评估的工具。 PPSD 完整\n版详细指南提供了SWOT 分析的详细概述。下面的图三详细说明了在拟订本附件一PPSD 格式\n时，借款人可能希望进行考虑的一些方面和问题。 \n图三 - SWOT 分析 \n借款人对以往经验、能力、优势和劣势的评估，可参考可靠的第三方的审计报告或类似文件\n得到支持、证明和证实。 在制定采购方式时，借款人应该展示从事过的类似采购（和采购安\n排）和成功实施的经验。 如果以前没有使用拟议的采购方法（或以前未成功实施），借款人\n应解释如何获得执行该采购方法的能力。 所有相关风险都应被视为附件一PPSD 格式第三部分\n采购风险分析的一部分。 \n3.7 \n市场研究和分析 \n市场研究和分析的目标，是对已经被确定有潜在可能竞标项目合同所需的货物，服务和/或工\n程的市场领域进行适当了解。这是为了确保最终采购方案能最大限度地提高合适供应商的参\n与，且能选择到合适的供应商（将由于没有投标或错误类型的投标导致采购失败最小化）。"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 5,
+    "chunk_id": "doc_0002:p5:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 5\n5. Rerank 与 Query Rewrite\n当语料规模变大时，仅靠 embedding top-k 往往不够。Rerank\n可以在初步召回后重新排序，把更精确的证据放到前面。Query rewrite\n则可以把用户的口语化问题改写成更适合检索的关键词组合。但二者都可能引入额外成本和延迟，因此应通过 eval\n数据决定是否需要。\n在本 benchmark 中，rerank 对表格型问题和跨文档问题提升明显。对于 near-exact query，rerank 提升有限。对于\nnegative query，rerank 不能替代证据不足判断，系统仍需要设置最低相似度阈值和 fallback policy。\n方法\n适用场景\n收益\n代价\nQuery Rewrite\n口语化、模糊问题\n召回更稳定\n可能偏离用户原意\nBM25 + Embedding Hybrid\n关键词和语义都重要\n兼顾专有名词\n索引复杂度增加\nCross-encoder Rerank\ntop-k 候选较多\n排序精度高\n延迟和成本增加\nMetadata Filter\n按 source/page/sheet 限制\n减少噪声\n依赖 metadata 质量"
   },
   {
-    "source": "project.pdf",
-    "page": 17,
-    "chunk_id": "project.pdf:p17:c0",
-    "text": "PPSD 的这一部分应该说明一个市场是如何运营的，以及它对借款人的市场方法的影响。它应\n从借款人和在该市场经营的供应商的角度看待市场，以确定何种方式会激励合适的供应商参\n与采购。  \n \n然后分析这些信息设计采购方案，确保有针对性的对待那些正确的市场和供应商，以便采购\n方法能够使市场利益最大化 – 比如价值高 /比例高的采购并不总是合适的供应商参与投标的动\n力。 \n3.8 \n市场分析范围 \n进行市场分析是为了获得对当前供应市场的共识，以便能够清楚地： \na) 确定市场类型； \nb) 描述竞争的性质及其是如何发挥作用； \nc) 建立供应市场能力； \nd) 估算现有市场供应总量； \ne) 了解影响市场的因素，以及如何影响供应商参与； \nf) 理解这些影响市场的因素，如何能产生变化，和这种变化的影响； \ng) 了解关键供应商是谁以及未来的计划； \nh) 确定与货物、服务和工程相关的费用； \ni) \n确定供应商在这个市场上使用的定价方法； \nj) \n根据实际价格和定价方法制定定价方向； \nk) 了解当前最佳定价方法以及现有成本和价格基准； \nl) \n确定与市场相关的风险，并描述如何管理风险； \nm) 评估借款人以前在类似市场上取得VfM 的经验； \nn) 描述市场中其他客户如何实现VfM，并获得正确的结果； 及 \no) 确定借款人的合同是否可能对市场产生任何正面或负面的影响（合适的供应商是否以\n正确的方式获得正确的结果？）。 \n3.9 \n市场分析结果 \n市场研究和分析的结果应该是对下述的理解： \na) 满足借款人需求的市场能力，包括典型的经验水平、打包规模和财务表现； \nb) 借款人以及其他客户在世行和非世行项目上的以往经验； \nc) 借款人的市场观点（从供应商的角度来看）在承包合作的吸引力方面（例如付款可靠\n性、采购能力、决策及时性、投诉处理和施加繁重条件），是合适的供应商可能会注\n意的领域；"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 6,
+    "chunk_id": "doc_0002:p6:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 6\n6. Answer Grounding 与 Citation 检查\n最终答案必须 grounded in retrieved evidence。生成器不应该把多个 chunk\n的内容随意拼接成没有来源的结论。对于企业场景，答案需要明确指出依据来自哪个文档、哪一页或哪个\nsheet。对于 Excel 数据，引用还应包含 sheet_name 和 row range。\nCitation 检查可以分为覆盖率和准确率。覆盖率表示答案中关键事实是否都有引用；准确率表示引用的 chunk 是否真\n的支持对应事实。很多系统只做到“看起来有引用”，但引用并不支持答案，这是生产环境中很危险的问题。\n检查项\n说明\n失败例子\nsource coverage\n每个关键事实至少一个 source\n答案说有 39% 提效但没有出处\ncitation accuracy\n引用内容支持该事实\n引用权限表来证明成本下降\nquote boundary\n引用片段不要越界\n把两个无关段落合并引用\nno evidence fallback\n无证据时明确说明\n编造文档没有的结论"
   },
   {
-    "source": "project.pdf",
-    "page": 18,
-    "chunk_id": "project.pdf:p18:c0",
-    "text": "d) 修改要求（如果需要）使其符合市场能力，或影响市场行为使其能够在无变化的情况\n下满足要求； \ne) 竞争的性质以及所需的确保适当参与程度； \nf) 目前市场上好的采购做法，包括定价方法、风险分配、绩效和成本基准； \ng) 确定的风险和缓解措施，包括将风险分配给管理风险最佳的一方。应在附件一的PPSD\n格式的第三部分做记录；和 \nh) 市场风险承受能力（因为通常来说，将风险转移给另一方会有代价，并且如果借款人\n试图向供应商转移太多的风险，这可能会导致很少或没有投标供应商，或者投标价太\n高，以至于无法选择此投标）。 \n在市场研究结束阶段，借款人应： \na) 制定与市场接轨的方法。 这是借款人直接与供应商联系的方法，以便他们能够针对采\n购所需规范/要求提供反馈和建议，创造出鼓励投标的合适市场环境；和 \nb) 确定高规格采购安排选项-本指导手册第六部分，每个项目合同采购方法的可用选项。 \n3.10 信息来源 \n用于市场分析的信息渠道很多。 在可能的情况下，借款人可从以前类似情况下做过的类似项\n目 / 合同着手，分析以前的经验和跟踪记录。 \n3.11 市场分析 \n有一些采购工具和技术可用于支持市场分析，不仅有助于建立研究体系，而且还可用做分析\n信息以得出结论，并制定采购方法。 \n \n与PPSD 的整体准备一样，这些工具的使用和应用需要与建立“适合用途”采购方法所需的市场\n研究和信息水平相称。不要指望使用所有工具，只用最适合的。借款人至少应使用供应定位\n（PPSD 准备和项目周期部分中详细说明）和供应商优先选择（详见下一小节）这两个工具，\n为正确的采购方案提供信息。 \nPPSD 完整格式详细指导手册，提供了为增强此分析而可运用的其他工具和技术更多的参考资\n料。 \n3.12 供应商的优先考虑 \n支持市场分析最有用的工具之一是供应商优先考虑。通过应用，借款人可以识别和描述供应\n商根据模型细分采纳并正在实施的典型方法。为了确定评估的准确性，借款人应考虑供应商\n如何应对投标的实际经验、成功程度以及供应商在执行中发生问题时如何应对-这是评估借款\n人的一个通常方式，作为供应商的客户对供应商很重要。"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 7,
+    "chunk_id": "doc_0002:p7:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 7\n7. 结果摘要与建议\n本 benchmark 的结论是：在小语料场景中，最重要的不是追求复杂的向量数据库，而是做好文档解析、chunk\n质量、metadata、人工抽样和最小 retrieval eval。只有当 top-k 能稳定命中正确证据时，接入 LLM 生成答案才有意义。\n对于当前 demo，建议先实现多文件 ingestion、PDF/Excel 分流解析、chunk 质量报告、top-k 检索可视化和 20 条\ngolden queries。然后再逐步加入 hybrid search、rerank、answer generation 和自动 citation check。\n●第一优先级：过滤低质量 chunk，保留 source/page/chunk_id/sheet_name。\n●第二优先级：建立 retrieval eval 表，覆盖 exact、paraphrase、cross-document 和 negative query。\n●第三优先级：对表格文档做 table-aware parsing，把表格转 markdown 或 JSON。\n●第四优先级：接入 LLM 前先单独验证 retriever。"
   },
   {
-    "source": "project.pdf",
-    "page": 18,
-    "chunk_id": "project.pdf:p18:c1",
-    "text": "功程度以及供应商在执行中发生问题时如何应对-这是评估借款\n人的一个通常方式，作为供应商的客户对供应商很重要。"
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "page": 8,
+    "chunk_id": "doc_0002:p8:c0",
+    "text": "Enterprise RAG Quality Benchmark Report\nPage 8\n8. 附录：Golden Queries\n以下 queries 可直接用于本 demo corpus 的检索评估。每条 query 都应记录 top-1 chunk、top-3\nchunks、score、是否相关、失败原因。长期维护这类 golden set，可以在修改 chunk 策略、embedding 模型或 rerank\n配置后快速发现回归。\nID\nQuery\n类型\n期望命中\nQ01\nRAG ingestion\n为什么不能直接把文件丢进向量库？\nparaphrase\nenterprise requirements 第 5 章\nQ02\n哪些 chunk 应该被标记为低质量？\nfact\nbenchmark 第 3.1 节\nQ03\nMaintainer 的工具权限是什么？\nfact\nenterprise requirements 第 3 章\nQ04\n哪个供应商得分最高？\ncross-document\nvendor_evaluation.xlsx\nQ05\n事故复盘中提出了哪些 corrective\nactions？\ncross-document\npostmortem PDF\nQ06\n文档有没有提到火星基地预算？\nnegative\n应返回无证据"
   },
   {
-    "source": "project.pdf",
-    "page": 19,
-    "chunk_id": "project.pdf:p19:c0",
-    "text": "供应商首选考虑是一种工具，用于确定供应商如何看待借款人（作为客户），和根据此观点，\n供应商会如何行动。供应商首选考虑将这些 “观点” 分类为四个细分，如下图所示。对有关供\n应商优先考虑及其应用的详细说明，请参阅 PPSD 完整格式详细指导。 \n \n在高层次上，这将决定借款人作为客户对供应商的吸引力。反过来又将决定供应商是否愿意\n投标的程度，以及供应商在满足借款人的要求方面所做的相应的努力水平。这是一个工具，\n可以帮助确定借款人通过采购方式影响市场的程度，以实现PDO 和采购目标（见本指导手册\n第五节）。 \n图四 - 市场信息来源 \n \n再者，合同的价值本身并不会增加采购或借款人对潜在的供应商的吸引力。 相反，整体价值\n和借款人的行为，会反应供应商可能的应对方式。 理想的分类是潜在供应商将借款人视为 “核\n心” 好客户，或希望通过 “开发” 增加这种相对价值重要性。 遗憾的是，一些供应商把借款人\n当作麻烦，可能会认为借款人由于营业成本高昂，或者被当做在短期内可以被 “剥削” 的人。 \n准确地理解这种动态，做出正确的改变，积极的供应商对于确保成功的采购结果至关重要。 \n \n这种分析的结果应允许借款人确定下列因素，并设计采购方案，从而将市场利益和实际参与\n采购最大化： \na) 借款人需要做哪些改变才能对市场更有吸引力？ \nb) 如何激励市场投标，并提供一个很好的解决方案来满足借款人的要求？ \nc) 如何与市场接轨以优化供应商参与招标过程的水平？"
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "page": 1,
+    "chunk_id": "doc_0003:p1:c0",
+    "text": "RAG Ingestion Incident Postmortem / 文档解析复盘\nDemo corpus generated for RAG testing. Version: 2026-06-08. Source: synthetic document.\n1. Incident Summary\nOn 2026-06-05, the document ingestion service returned incomplete chunks for several Chinese PDF files. The issue\naffected retrieval quality but did not affect authentication, billing, or user data integrity.\nThe immediate cause was an overly aggressive fixed-size splitter. It cut sentences in the middle and allowed\ntable-of-contents fragments to enter the vector index.\n2. Impact\nUsers could upload files successfully, but some answers cited low-quality chunks. In several cases, the top retrieval result\nwas a table of contents entry instead of the paragraph containing the actual answer.\nThe problem was most visible in procurement documents, p"
   },
   {
-    "source": "project.pdf",
-    "page": 20,
-    "chunk_id": "project.pdf:p20:c0",
-    "text": "3.13 市场介入 \n市场介入是对处于一个市场并有其供应商的借款人需求的一种研究方式。 \n \n实施市场介入，借款人应确保平等对待所有潜在供应商，维护公平和透明度的核心原则。特\n别重要的是，借款人在采购过程中，包括但不限于市场介入本身、最终要求/规范或选定的采\n购安排，应避免采取已知或实际的利益冲突的方式。 \n \n市场介入有助于建立满足借款人需求的市场能力，提供满足需求的替代方法的设想，强调项\n目周期中的潜在风险，并提供对可能的市场利益的观察。简单地说，它也可以激励合适的供\n应商投标。然后将此信息用于制定采购方案，使其以正确的方式管理各方的风险，在整体上\n对市场更有吸引力，形成更强的竞争，最终能够将实现借款人PDO 的机会最大化。 \n \n市场参与可以通过多种不同的方式进行，包括概念可实施性测试、供应商问卷调查、市场调\n查测试、供应商会议、贸易活动、有偿市场调研，以及为开展咨询等公开采购策略。"
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "page": 1,
+    "chunk_id": "doc_0003:p1:c1",
+    "text": "ts entry instead of the paragraph containing the actual answer.\nThe problem was most visible in procurement documents, policy manuals, and reports that contain page headers,\nfooters, long dot leaders, and multi-page tables.\n3. Root Cause\nThe parser extracted text correctly, but the chunking strategy did not use semantic boundaries. It ignored headings,\nparagraph breaks, Chinese punctuation, and table structure. Metadata was partially retained but did not include section\nnames.\nThe eval suite only checked whether ingestion completed. It did not include retrieval-level tests such as top-1 relevance,\ntop-3 contains answer, source page accuracy, or citation quality.\n4. Corrective Actions\nAdd a chunk quality filter that removes very short chunks, chunks dominated by punctuation, and likely\ntabl"
   },
   {
-    "source": "project.pdf",
-    "page": 21,
-    "chunk_id": "project.pdf:p21:c0",
-    "text": "Section IV. Procurement Risk Analysis \n \n采购风险分析是一个识别和将可能发生的风险最小化的过程，从而尽量减少对项目的影响。 \n采购风险分析列出了应对风险的计划，指出不适当地向供应商转移风险将会减少竞争，或者\n导致没有投标或次优投标。 \n \n应分析和评估第三部分分析中发现的主要风险，以及通过头脑风暴确定的任何其他相关风险。 \n采购风险分析会对风险定义，描述缓解措施并将分配风险归属。 \n4.1 \n采购风险分析方法 \n为了使采购风险识别和分析可操作，借款人应围绕八个关键领域设定评估： \na） 市场复杂性和竞争力； \nb） 交付和供应安全； \nc） 供应商和供应商关系； \nd） 借款人的经验，经营规模和能力； \ne） 成本趋势； \nf） 技术创新-变革的程度和速度； \ng） 可持续发展（环境、经济和社会）; 和 \nh） 商业和运营环境。 \n在考虑风险如何能够减轻时，应考虑以下详细说明的采购流程的各个阶段。 \na) 市场介入-确保借款人了解市场的功能，并向供应商展示与借款人合作的益处； \nb) 资格预审和初步选择-确保只有符合要求的供应商才可以投标； \nc) 规范-确保借款人清楚说明其要求； \nd) 合同策略（合同类型、合同条件、定价机制等）-确保投标具有竞争力，且能最终实现\n可证明的VfM； \ne) 选择方法和市场方式-使已经选定的采购安排能够实现项目目标PDO 和物有所值VfM； f)\n 评标方法-确保选中最合适的供应商，而且管理和识别所有风险。\n第四章    采购风险分析"
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "page": 1,
+    "chunk_id": "doc_0003:p1:c2",
+    "text": "tive Actions\nAdd a chunk quality filter that removes very short chunks, chunks dominated by punctuation, and likely\ntable-of-contents fragments. Add sentence-aware splitting for Chinese documents using punctuation such as\n。！？； as preferred cut points.\nAdd retrieval eval cases with exact-match queries, paraphrase queries, and cross-document comparison queries. Each\neval case should record query, expected_source, expected_page, top_k_results, and pass/fail.\n5. Follow-up Metrics\nKey metrics include parse_success_rate, low_quality_chunk_ratio, top1_relevance, top3_contains_answer,\ncitation_page_accuracy, average_latency_ms, and embedding_cost_per_document.\nA weekly regression report should compare changes in parser, splitter, embedding model, and reranker settings.\nTable 1: Retrieval Quality C"
   },
   {
-    "source": "project.pdf",
-    "page": 22,
-    "chunk_id": "project.pdf:p22:c0",
-    "text": "Section V. Procurement Objectives \n \n借款人应根据对PDO、采购风险、借款人能力和市场分析，制定关键采购目标清单。 \n \n关键采购目标应描述的得足够详细，即如果获得实现的话，将支持实现PDO 和取得VfM。 \n \n采购目标需要SMART-具体、可衡量、可实现、相关和时间限制。同样重要的是采购目标需要\n安排优先次序。\n第五章    采购目标"
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "page": 1,
+    "chunk_id": "doc_0003:p1:c3",
+    "text": "report should compare changes in parser, splitter, embedding model, and reranker settings.\nTable 1: Retrieval Quality Checks\nCheck\nExpected\nFailure example\nChinese encoding\nReadable Chinese text\n□□□ or mojibake symbols"
   },
   {
-    "source": "project.pdf",
-    "page": 23,
-    "chunk_id": "project.pdf:p23:c0",
-    "text": "Section VI. Procurement Options and Recommendation \n \nPPSD 的这一部分总结了项目中每个合同采购方法的选择。每个采购方法的支持证据或理由应\n从PPSD 的以前各部分中得到，并具有足够的细节对采购方法做出有逻辑地性的解释。 \n \n本章将有如下结果： \na) 采购方法，说明借款人将如何进入市场，选择合适的供应商并最终确定合同； \nb) 从各个采购方式中综合的采购方法和方案经过汇总为招标文件提供信息； 和 \nc) 采购计划对项目内每个合同的采购汇总。 \n作为PPSD 的一部分，所有已进行的分析和研究都需要汇总，以设计可用于实现采购目标和\nPDO 的不同采购方法。很可能会有一些不同的采购方法。本节将涉及可以实现采购目标和\nPDO 的替代采购方法的产生，并确定哪一种最有可能取得成功。借款人应在可能的情况下制\n定一些替代采购方法，以确保实现既定采购目标。 \n \n只有在确定、描述和评估所有实际可选方案后才能推荐采购方案。至少，可选方案分析应详\n细描述每个采购方案选项，以便评审备选方案是否有能力满足采购目标。 \n \nPPSD 短格式详细说明了在制定正确的采购方法时应考虑的各种采购方案和方法。 \n表格中每个选项都需填完，并在有选项分析完成后在说明一栏里加以备注，之后再对最终推\n荐的采购方法做说明。 \n6.1 \n设计采购方法的一般考虑 \nA. 供应定位和供应商首选考虑 \n调整借款人的需求和可能竞标世行贷款项目的供应商的行为，是采购方案设计的基本组成部\n分。 \n \n如第二节所述，供应定位是用于评估货物，服务和工程重要性的采购工具。下表二概述了采\n购方式和减缓措施，根据供应商定位做出分类，是借款人在制定采购方式时应考虑的。 \n第六章    采购选择和建议"
-  },
-  {
-    "source": "project.pdf",
-    "page": 24,
-    "chunk_id": "project.pdf:p24:c0",
-    "text": "表二 - 供应定位分类 \n \n同样，供应商首选方法根据客户细分来确定供应商使用的方法。下表三提供了供应商在每个\n类别中对借款人（作为客户）可能采用的方法。"
-  },
-  {
-    "source": "project.pdf",
-    "page": 25,
-    "chunk_id": "project.pdf:p25:c0",
-    "text": "表三 - 供应商偏好 \n \n最有见地的方法是供应定位和供应商首选在一起使用。比较供应商首选和供应定位的结果，\n借款人可以识别和评估基于供应商定位细分而确定的借款人具体采购方式是否符合基于供应\n商首选方式而确定的单独供应商的具体方法。 \n \n当借款人与供应商之间的采购方案一致性很高时，这是正面的显示，表明这一采购方式可能\n会带来预期收益。 但在一致性很小的情况下，则表明这一采购方法可能无法实现预期效益。 \n这两种模式的比较特别有助于在做如下识别时： \na) 制定 “适合用途” 采购方案时需要考虑潜在风险； \nb) 当借款人需要通过某些更改来改变供应商对其看法时，如当供应商关注借款人在付款\n及时性方面记录时，要求世行直接付款给供应商；"
-  },
-  {
-    "source": "project.pdf",
-    "page": 26,
-    "chunk_id": "project.pdf:p26:c0",
-    "text": "c) 需要在市场介入方式中解决的要素，以便为供应商与借款人合作的理由做出正面的市\n场定位； \nd) 需要包括在风险登记内的，和应对突发风险计划的行为； \ne) 可以涵盖在资格预审之下的潜在领域，以确保与借款人最匹配的供应商能有资格投标；\n和 \nf) 潜在的评标标准，以确保问题都包括在投标书征询文件或建议书征询文件中。使供应\n商提供的信息能够帮助确定最为符合要求的供应商。 \n对于借款人和供应商方法的不一致情况，只要知道并了解不一致的原因就可以实施管理。这\n其中的信息将来自供应商定位和供应商首选的比较结果，也来自于SWOT 和PESTLE 评估。 再\n次强调，仅仅因为采购价值高，并不能确保使采购或者借款人对市场有吸引力。 \nB. 竞争类型 \n对竞争类型的了解是能够制定正确的采购方法的先决条件。 例如，在垄断/寡头市场（一个或\n少数几个供应商拥控制权）的情况下，设计一个以竞争性招标为特征的采购方法，将风险明\n显的转移给供应商，供应商选择基于最低评估成本，这样做不太可能成功。 在这种情况下，\n基于公开定价和一个潜在的长期合同的谈判方法则更有效。 因此，市场类型将对采购产生直\n接影响，并有助于借款人确定： \na) 竞争投标类型（由竞争水平和替代 / 选择方案的存在决定）; \nb) 最有效的定价或成本核算机制（由市场定价方法确定）; 和 \nc) 市场实际承受的风险转移水平（由买方的相对能力和实力以及供应商的参与动力决\n定）。 \n管理技术 “波特五力” 分析（PPSD 完整格式详细指导中描述）可用于对竞争及决定竞争类型和\n水平因素的详细评估。 \n6.2 \n采购方法设计 \n以下五个阶段应考虑的适用采购方式： \na) 要求（规格型号和可持续采购要求）; \nb) 合同策略（合同类型，定价/成本核算机制，供应商关系和合同条件）; \nc) 选择方法（批准的选择方法，批准的选择安排的具体类型和市场方法选项）; \nd) 评标方法（打分标准或最低评标价）; 和 \ne) 合同管理。 \n6.3 \n要求"
-  },
-  {
-    "source": "project.pdf",
-    "page": 27,
-    "chunk_id": "project.pdf:p27:c0",
-    "text": "虽然PPSD 不直接涉及项目/合同要求的制定，但选择适当类型的规范对采购方法和随后的市\n场兴趣水平都有重要影响。 \n6.4 \n指标 \n两种主要的规格类型是： \na) 符合性规范，有时称为技术、细致、输入或设计规范；和 \nb) 执行性规范，有时称为基于结果的规范。 \nA. 符合性规范 \n已经有全面理解，且供应商很少/不希望创新，使用符合性规范。 \nB. 执行性规范 \n当所需要的结果可以描述，借款人不确定实现其要求的最佳方法，或者供应商明显具有设计 \n“适合用途” 解决方案的能力，使用执行性规范。 \n作为一般规则，基于执行的规范侧重于结果，而符合性规范则侧重于满足指定的设计和资源\n需求。 \n6.5 \n可持续性采购 \n可持续采购来源于可持续发展概念，可持续发展概念被定义为“满足当前需求的，不损害后代，\n能够满足自身需求的发展”。可持续发展确定了三个支柱概念：环境、社会和经济。 在世行的\n要求之外，可以自行决定在采购方法中增加可持续采购方面的考虑。有关更多信息，请参阅\n可持续采购指导手册。 \n6.6 \n合同策略 \n合同策略用于确定合同类型、价格和成本模式以及所需要的持续供应商关系，以在合同期限\n内取得正确的结果。 \n6.7 \n合同类型 \n合同类型是适当的合同格式、条款和条件的选择。合同类型的选择应基于规范的类型、采购\n风险评估和市场分析等信息来确定。 还应该考虑市场的能力、借款人的能力以及实施的运营\n环境。 \n合同类型的选择以项目为具体考虑，因此也需考虑PDO 和采购目标。"
-  },
-  {
-    "source": "project.pdf",
-    "page": 28,
-    "chunk_id": "project.pdf:p28:c0",
-    "text": "6.8 \n价格和费用制定机制 \n价格和成本核算机制的选择应在选择合同类型和SPD 时进行。价格和成本机制将决定借款人\n与供应商之间的风险分配。因此，成本和价格选择应通过合同战略、规格类型、采购风险分\n析以及经营背景和借款人能力的战略评估来确定。 \n有五种主要定价和成本核算模式，其使用由选定的SPD 决定： \na) 总价合同； \nb) 基于基于履约/性能的合同； \nc) 费率/计量表-基于单价的合同； \nd) 时间和材料-基于时间的合同；或 \ne) 成本加费用-可报销偿还的成本合同，无论是固定费用还是基于合同价值的百分比。 \n在选择适当的价格和成本机制时，借款人应考虑： \na) 规格/规范类型-符合性或执行性为基础，在合同开始时所需的要求范围的确定和工作\n开始的速度； \nb) 合同类型-某些类型的合同会将风险转嫁给供应商（如设计、建造、运营和维护），所\n以价格机制需要与这种方式一致； \nc) 需要风险分配-给最有能力管理风险的一方； \nd) 运营环境-包括难以预测的和已知的问题，例如高通货膨胀、交付和保险（既，\nINCOTERMS）; \ne) 借款人的能力-对定价机制和可用合同资源进行管理的熟悉程度；和 \nf) 市场类型-如何激励供应商投标和实施。 \n6.9 \n供应商关系 \n合同类型和价格成本机制的选择，通常决定了在合同和项目实行期间与供应商的可能关系。 \n关系谱可以从一个极端的对抗到另一个极端的高度协作。 \n在以下某些情况下，对抗 / 战术方法可能适合： \n• \n市场竞争激烈 \n• \n供应商众多且市场供应量大 \n• \n供应商力量不大 \n• \n标准货物，服务和工程 \n• \n借款人与供应商之间不需要高度信任 \n• \n转换到新供应商的成本低至零 \n• \n一次性购买 \n• \n短期关系，无长期承诺"
-  },
-  {
-    "source": "project.pdf",
-    "page": 29,
-    "chunk_id": "project.pdf:p29:c0",
-    "text": "如果出现以下某些情况，合作方式可能适用： \n• \n基于相互信任，开放和透明度的长期承诺 \n• \n达成共同的利益和目标 \n• \n共同的风险和收获 \n• \n双赢方式是可能的 \n• \n关系是平等伙伴之一 \n• \n借款人和供应商应该通过共同工作方法\n寻求减少成本和增加价值的协议 \n6.10 价格调整 \n世行标准采购文件提供固定价格，或可调整价格的可以反映合同主要成本活动，如劳动和材\n料的变化并做调整的合同选择权。 \n市场研究分析报告应提供建立市场成本趋势和驱动因素所需的全部信息，以及对借款人业务\n环境的评估。 借款人应使用这些信息来证明对适当的价格调整机制的选择。 \n6.11  合同格式  (条款和条件) \n合同策略的最后一部分是选择合同的条款和条件。在许多情况下，对批准的选择方法和SPD\n做出的决策将确定合同条件。 但是，作为一项控制和平衡措施，借款人应建立起与整体采购\n方法相一致的决心。 \n最合适的合同形式的决策是由采购价值和复杂性、采购风险、合同履约的不确定性、借款人\n与供应商之间的风险分配以及所需的供应商关系所确定的。 \n6.12 选择方法 \n在确定了合同类型和定价机制之后，制定采购方案的下一个阶段是确定选择方法和市场方案。 \n需要做如下三个决定： \na） 选择方法； \nb） 选择安排；和 \nc） 市场方案。 \n这三个选项有许多组合，但是有些是相互排斥的。规则第六节和第七节详细列出了可供选择\n的方案。 \n在确定采购安排的正确组合以设计市场方式时，对选择方法类型的确定主要是由市场竞争程\n度，有能力供应商数量，特殊性的要求以及 实施工作中涉及到的固有风险。 这些信息应来自： \na) 市场分析，包括由供应位置模型确定的合同成本和复杂性； \nb) 市场参与方式；和"
-  },
-  {
-    "source": "project.pdf",
-    "page": 30,
-    "chunk_id": "project.pdf:p30:c0",
-    "text": "c) 采购风险分析。 \n将此信息应用于每个合同，并应用于所选择的组合应有助于使采购方案这一要素保持一致性\n的活动。 \n6.13 评审方法 \n评审方法涉及确定供应商投标书和建议书的评估过程，以确定提供最佳VfM 的供应商（和因\n此而提供正确的结果/ PDO）。 \n \n世行将VfM 定义为有效、高效和经济地利用资源，这需要对相关成本和收益做评估，对风险\n进行评估以及非价格属性和/或周期成本的评估。单独价格不一定能代表VfM。 \n \n评估标准必须设计成使借款人能购在世行资助的采购中实现最佳VfM。 评估标准需要适合于\n采购的类型、性质以及市场条件和复杂性，并且必须在RFB / RFP 文件中做明确说明\n（www.worldbank.org/procurement）。\n6.14 确定优先采购方案的选择分析 \n对于可以用于合同的采购组合，通常会有多个采购方案选项。选择分析是准备PPSD 的最后一\n个分析阶段。 \n \n要选择优先采购方法，需要对每个潜在的采购方案进行比较分析。 它包括两个主要活动： \na) 根据采购目标评估每个潜在采购方案的可能优势； 和 \nb) 审查采购风险，以确定哪种采购方案能够最好的解决已知风险。 \n在选择分析开始之前，在单个格式中概述的每个采购选项（本指南的第六部分）都应有一个\n简短的综述。 \n6.15  根据采购目标分析采购方案 \n下面的图五是进行此评估的简单工具。 需要在第一列中列出不同的采购方案，其中第一行中\n列出了采购目标。然后应用简单的评级来评估每个采购方案是否符合每个采购目标。评分为： \n-1 = 不符合目标;      0 = 符合目标;      1 = 超过目标。 \n一旦所有采购方式和采购目标进行了评估，每个方案的评分要加总在一起。 最后，每个选项\n应该从最高到最低按打分排名，并去除任何不能满足目标的选项。"
-  },
-  {
-    "source": "project.pdf",
-    "page": 31,
-    "chunk_id": "project.pdf:p31:c0",
-    "text": "图五- 选项分析 \n6.16  评审采购风险建立最佳处理已知风险的采购方案 \n第二阶段是对先前所做的采购风险分析进行评估，并评估每个采购选择如何处理所识别的风\n险。在进行上述评估后，需要对所有剩余采购方案进行分析。这个阶段是基于对每个采购方\n法可能存在的遗留风险进行评估，以及由于使用了所选方法，整体风险是否得到降低。 最终\n结果应该对PPSD 格式第三部分采购风险表中优先采购方式进行更新。 经这个评估后，则应该\n确定最终的首选采购方案。"
-  },
-  {
-    "source": "project.pdf",
-    "page": 32,
-    "chunk_id": "project.pdf:p32:c0",
-    "text": "Section VII. Preferred Arrangements for Low-Value/Low \n这一部分用于记录被确定为供应定位分析（本指导手册第二部分）一部分合同的采购方法，\n不需要对所选采购方法进行详细的评估和说明。 \n第七章    对低价值/低风险合同的优先安排"
-  },
-  {
-    "source": "project.pdf",
-    "page": 33,
-    "chunk_id": "project.pdf:p33:c0",
-    "text": "Section VIII. Summary of PPSD to Support the Preparation of \n最后阶段是简要总结所推荐的采购方式（并说明采购计划），世行将其作为准备项目评估文\n件（PAD）的一部分。 摘要应简要说明所推荐的采购方法，并概要说明使用该方法的理由。 \n完成本节时，应考虑以下几点： \na） 采购方法如何使VfM 能够实现PDO，特别是如果所建议的方法不是公开竞争，或对借\n款人采用新的采购技术，或带来高风险或重大风险； \nb） 确定的关键采购风险和提出的减缓措施（例如关系到国家、市场、代理机构能力评估\n和采购的复杂性以及拟议的采购方法）; \nc） 采购监督和监督安排，包括适用性和是否需要世行提供实际延伸执行支持；是否需要\nAPA？是否需要增加监管（例如，信用诚实确认），既由于所拟议的采购安排的风险\n（例如使用谈判，竞争性对话），和确认已经有涵盖项目实施前18 个月的可接受的采\n购计划；和 \nd） PPSD 格式表中的项目内高风险或重大风险合约的采购安排。\n第八章    总结PPSD 支持世行项目评估准备工作"
-  },
-  {
-    "source": "project.pdf",
-    "page": 34,
-    "chunk_id": "project.pdf:p34:c0",
-    "text": "Annex I- Short Form PPSD Template \n1 项目概要 \n完成该格式应着重描述通过应用“供应定位”确定的每个更高价值/风险合约的细节，如“PPSD 指导\n说明”的PPSD 准备和项目周期部分所述。 所有类似的合同都应该整合在一个标题下并做描述。 \n \n对于每个关键合同细节，用一行简短摘要说明需求包括成本估算。 \n2 国家、借款人和市场的概要 \na. 运营环境 \n• \n监管方面 \n• \n经济方面 \n• \n可持续性方面 \n• \n技术方面 \n主要结论 \nb. 客户能力和执行机构评估 \n• \n经验 \n• \n对实际支持的需求 \n• \n合同管理规模和能力 \n• \n投诉管理和争议解决处理系统 \n主要结论 \n国家: \n \n项目全称: \n \n全部资助额 ($): \n \n项目序号: \n \n项目开发目标概要 \n \n附件一    简写版PPSD 格式"
-  },
-  {
-    "source": "project.pdf",
-    "page": 35,
-    "chunk_id": "project.pdf:p35:c0",
-    "text": "c. 市场分析 \n• \n市场行业动态 \n• \n财政 \n• \n采购趋势 \n主要结论 \n3 采购风险分析 \n风险描述 \n减缓描述 \n风险所属 \n \n \n \n \n \n \n \n \n \n4 采购目标 \n1. \n2. \n3. \n4. \n5. \n5 建议项目采购方案 \n• \n合同和成本估算: \n• \n采购方案  (按以下选择并完成如下表格): \n属性 \n所选安排 \n说明 \n概要/逻辑性 \n规范 \n符合性/执行性 \n \n可持续要求 \n是/否 \n \n合同类型 \nA. 传统 \nB. 设计加建造 \nC. 设计、建造、运营、维护 \nD. 设计加建造 –交钥匙或总承包商 \nE. 设计、采购加施工，或设计、采购、施\n工、管理 \nF. 其他: _____________________"
-  },
-  {
-    "source": "project.pdf",
-    "page": 36,
-    "chunk_id": "project.pdf:p36:c0",
-    "text": "定价和成本计算机制 \nA. 总包价 \nB. 符合性合同 \nC. 费率表/计量表 \nD. 时间加材料 \nE. 成本加费用 \n \n \n供应商关系 \nA. 竞争的/合作的 \n \n价格调整 \n \n \n \nA. 无调整，固定价 \nB. 议价 \nC. 百分比        % \n \n \n \n合同格式 （条款和 \n条件） \nD. 说明合同特殊条款 \n \n选择方式 \n \nA. 征询建议书  (RFP) \nB. 征询投标书  (RFB) \nC. 询价  (RFQ)  \nD. 直接选择 \n \n选择安排 \nA. 竞争性对话 \nB. 说明任何合同特殊条款 (PPP) \nC. 商业惯例                  \nD. 联合国机构 \nE. 逆向电子拍卖 \nF. 进口方案 \nG. 商品的采购 \nH. 社区主导型发展 \nI. 自营工程 \nJ. 框架协议 \nK. 跨项目机会 \n \n \n市场方式 \nA. 竞争类型 \n1. 公开 \n2. 有限 \n3. 国际 \n4. 国内 \nB. 无竞争 – 直接选择 \nC. 信奉的数量/阶段 \n1. 单信封 \n2. 双信封 \n3. 一阶段 \n4. 多阶段 \nB. 最佳和最终报价 （是/否） \nC. 谈判  (是 / 否) \n \n \n资格预审/后审 \nA. 资格预审"
-  },
-  {
-    "source": "project.pdf",
-    "page": 37,
-    "chunk_id": "project.pdf:p37:c0",
-    "text": "B. 资格后审 \nC. 初步选择 \n \n屏参选择方法 \nA. 以质量和费用为基础的选择 (QCBS) \nB. 以固定费用为基础的选择 (FBS) \nC. 以最低费用为基础的选择 (LCS)  \nD. 以质量为基础的 (QBS) \nE. 基于咨询顾问质量的选择 (CQS) \nD. 直接选择 \n \n \n评估成本 \nA. 可调整的投标价格 \nB. 项目生命周期成本 \n \n \n国内优惠 \n有 / 无 \n \n \n打分标准 \n列出将使用的标准的类型  （强制的/期望\n的） \n \n \n \n6 对低价值低风险的首选安排  (如果使用) \n合同 \n类别 \n估价 \n采购安排和方法 \n \n \n \n \n \n \n \n \n7 为银行准备PAD 所做的  PPSD 总结"
-  },
-  {
-    "source": "project.pdf",
-    "page": 38,
-    "chunk_id": "project.pdf:p38:c0",
-    "text": "有关其他信息，如标准采购文件（SPD），指导，简报，培训和电子学习资料，请参见\nwww.worldbank.org/procurement"
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "page": 2,
+    "chunk_id": "doc_0003:p2:c0",
+    "text": "Sentence boundary\nNo hard cut in middle of\nsentence\n根据模 / 型细分\nMetadata\nsource/page/chunk_id\nretained\nanswer without source\nTable handling\nMarkdown or structured\nrows\ncolumns flattened into random text\nSynthetic postmortem for retrieval evaluation. Designed to test English + Chinese mixed document parsing."
   }
 ]

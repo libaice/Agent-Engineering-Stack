@@ -1,0 +1,6 @@
+{
+  "ingest_time": "2026-06-08T20:23:11.455252",
+  "num_docs": 3,
+  "num_chunks": 27,
+  "embedding_model": "BAAI/bge-small-zh-v1.5"
+}

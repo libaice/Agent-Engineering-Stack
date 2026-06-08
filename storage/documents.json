@@ -1,0 +1,20 @@
+[
+  {
+    "document_id": "doc_0001",
+    "source": "ai_native_engineering_platform_blueprint.pdf",
+    "file_path": "data/docs/ai_native_engineering_platform_blueprint.pdf",
+    "file_type": "pdf"
+  },
+  {
+    "document_id": "doc_0002",
+    "source": "enterprise_rag_quality_benchmark_report.pdf",
+    "file_path": "data/docs/enterprise_rag_quality_benchmark_report.pdf",
+    "file_type": "pdf"
+  },
+  {
+    "document_id": "doc_0003",
+    "source": "rag_ingestion_incident_postmortem.pdf",
+    "file_path": "data/docs/rag_ingestion_incident_postmortem.pdf",
+    "file_type": "pdf"
+  }
+]
