@@ -60,7 +60,7 @@ class PersistentVectorStore:
             results.append(
                 {
                     "score": float(score),
-                    "document_id": doc.get("document_id", ""),
+                    "document_id": doc["document_id"],
                     "source": doc["source"],
                     "file_path": doc.get("file_path", ""),
                     "file_type": doc.get("file_type", ""),
