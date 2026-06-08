@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from sentence_transformers import CrossEncoder
 
 from Step08_hybrid_search_demo import HybridSearchStore, print_results
-
+from Step03_rag_answer_demo import answer_with_llm
 
 RERANKER_MODEL_NAME = "BAAI/bge-reranker-base"
 
@@ -78,13 +78,20 @@ def main():
             bm25_weight=0.5,
         )
 
-        print("\nBefore Rerank: Hybrid Candidates")
-        print_results(candidates[:5])
+        # 1/ before rerank
+        # print("\nBefore Rerank: Hybrid Candidates")
+        # print_results(candidates[:5])
 
         reranked = reranker.rerank(query, candidates, top_k=5)
-        print_reranked_results(reranked)
 
+        # 2/ after rerank
+        # print_reranked_results(reranked)
 
+        # 3/ answer with llm
+        answer = answer_with_llm(query, reranked)
+        print(f"\nFinal Answer: {answer}")
+
+        
 
 if __name__ == "__main__":
     main()
