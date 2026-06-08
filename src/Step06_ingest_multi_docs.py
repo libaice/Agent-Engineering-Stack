@@ -34,6 +34,8 @@ def load_and_chunk_pdf(file_path: Path, document_id: str) -> List[Dict[str, Any]
             chunks.append({
                 "document_id": document_id,
                 "source": page["source"],
+                "file_path": str(file_path),
+                "file_type": "pdf",
                 "page": page["page"],
                 "chunk_id": f"{document_id}:p{page['page']}:c{chunk_index}",
                 "text": text,
