@@ -45,7 +45,9 @@ class SimpleVectorStore:
                 {
                     "score": float(score),
                     "source": doc["source"],
-                    "page": doc["page"],
+                    "page": doc.get("page"),
+                    "sheet_name": doc.get("sheet_name"),
+                    "row_index": doc.get("row_index"),
                     "chunk_id": doc["chunk_id"],
                     "text": doc["text"],
                 }

@@ -34,9 +34,20 @@ def format_evidence(results: List[Dict[str, Any]]) -> str:
     evidence_blocks = []
 
     for i, item in enumerate(results, start=1):
+        location_parts = []
+        if item.get("page") is not None:
+            location_parts.append(f"page: {item['page']}")
+        if item.get("sheet_name"):
+            location_parts.append(f"sheet: {item['sheet_name']}")
+        if item.get("row_index") is not None:
+            location_parts.append(f"row: {item['row_index']}")
+
+        location_str = "\n".join(location_parts)
+        if location_str:
+            location_str = "\n" + location_str
+
         block = f"""[{i}]
-source: {item["source"]}
-page: {item["page"]}
+source: {item["source"]}{location_str}
 chunk_id: {item["chunk_id"]}
 text:
 {item["text"]}

@@ -64,7 +64,9 @@ class PersistentVectorStore:
                     "source": doc["source"],
                     "file_path": doc.get("file_path", ""),
                     "file_type": doc.get("file_type", ""),
-                    "page": doc["page"],
+                    "page": doc.get("page"),
+                    "sheet_name": doc.get("sheet_name"),
+                    "row_index": doc.get("row_index"),
                     "chunk_id": doc["chunk_id"],
                     "text": doc["text"],
                 }
@@ -90,9 +92,14 @@ def main():
 
         for i, item in enumerate(retrieved, start=1):
             print(f"[{i}] score={item['score']:.4f}")
-            print(
-                f"source={item['source']} page={item['page']} chunk_id={item['chunk_id']}"
-            )
+            meta_parts = [f"source={item['source']}", f"chunk_id={item['chunk_id']}"]
+            if item.get("page") is not None:
+                meta_parts.append(f"page={item['page']}")
+            if item.get("sheet_name"):
+                meta_parts.append(f"sheet={item['sheet_name']}")
+            if item.get("row_index") is not None:
+                meta_parts.append(f"row={item['row_index']}")
+            print(" ".join(meta_parts))
             print(item["text"][:500])
             print("-" * 80)
 

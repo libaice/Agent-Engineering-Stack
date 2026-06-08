@@ -23,7 +23,7 @@ def check_retrieval_hit(
     if not expected_pages:
         return True
 
-    retrieved_pages = {item["page"] for item in retrieved}
+    retrieved_pages = {item.get("page") for item in retrieved if item.get("page") is not None}
     return any(page in retrieved_pages for page in expected_pages)
 
 
@@ -82,7 +82,7 @@ def evaluate_case(case: Dict[str, Any], store: SimpleVectorStore, top_k: int = 5
         "refused_correctly": refused_correctly,
         "latency_sec": round(latency, 2),
         "answer": answer,
-        "retrieved_pages": [item["page"] for item in retrieved],
+        "retrieved_pages": [item.get("page") for item in retrieved if item.get("page") is not None],
         "top_chunk_ids": [item["chunk_id"] for item in retrieved],
     }
 
