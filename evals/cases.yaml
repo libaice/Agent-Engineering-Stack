@@ -1,33 +1,35 @@
 - id: case_001
-  question: "这个文档主要讲什么？"
+  question: "什么是项目发展采购战略 (PPSD)？"
   expected_answer_contains:
-    - "文档"
+    - "项目发展采购战略"
   expected_pages: []
   should_answer: true
 
 - id: case_002
-  question: "这个项目有哪些交付内容？"
+  question: "VfM在采购手册中的定义是什么？"
   expected_answer_contains:
-    - "交付"
+    - "物有所值"
   expected_pages: []
   should_answer: true
 
-
 - id: case_003
-  question: "这个项目的主要风险是什么？"
+  question: "SWOT在采购手册中的定义是什么？"
   expected_answer_contains:
-    - "风险"
+    - "优势"
+    - "劣势"
+    - "机会"
+    - "威胁"
   expected_pages: []
   should_answer: true
 
 - id: case_004
-  question: "这个项目创始人是谁？"
+  question: "这篇文档有提及如何开发并建造火星移民飞船吗？"
   expected_answer_contains: []
   expected_pages: []
   should_answer: false
 
 - id: case_005
-  question: "这个文档有没有提到火星移民计划？"
+  question: "世界银行这个采购项目总预算具体是多少美元？"
   expected_answer_contains: []
   expected_pages: []
   should_answer: false
