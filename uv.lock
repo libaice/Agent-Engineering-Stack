@@ -11,6 +11,7 @@ dependencies = [
     { name = "openai" },
     { name = "pymupdf" },
     { name = "python-dotenv" },
+    { name = "pyyaml" },
     { name = "sentence-transformers" },
 ]
 
@@ -20,6 +21,7 @@ requires-dist = [
     { name = "openai", specifier = ">=2.41.0" },
     { name = "pymupdf", specifier = ">=1.27.2.3" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "sentence-transformers", specifier = ">=5.5.1" },
 ]
 

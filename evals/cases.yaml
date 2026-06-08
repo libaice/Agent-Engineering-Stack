@@ -1,0 +1,6 @@
+- id: case_001
+  question: "这个文档主要讲什么？"
+  expected_answer_contains:
+    - "文档"
+  expected_pages: []
+  should_answer: true
