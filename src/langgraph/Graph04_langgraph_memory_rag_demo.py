@@ -13,9 +13,28 @@ from pydantic import BaseModel, Field
 from typing import TypedDict, List, Dict, Any, Optional, Annotated
 import operator
 
-from langchain_core.messages import AnyMessage
+from langchain_core.messages import AnyMessage,AIMessage
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import InMemorySaver
+
+
+from rag.Step13_query_rewrite_demo import rewrite_query
+from rag.Step14_query_rewrite_rag_demo import multi_query_search
+from rag.Step08_hybrid_search_demo import HybridSearchStore
+from rag.Step09_rerank_demo import Reranker
+from rag.Step12_structured_answer_demo import answer_with_structured_output
+
+
+
+from langgraph.Graph02_langgraph_conditional_rag_demo import (
+    RAGState,
+    clarify_node,
+    retrieve_node,
+    retry_retrieve_node,
+    route_after_rewrite,
+    route_after_answer,
+    initial_state
+)
 
 load_dotenv()
 client = OpenAI(
@@ -157,35 +176,100 @@ Current user question:
 
 
 def rewrite_node(state: MemoryRAGState) -> Dict[str, Any]:
-    pass
+    try:
+        query = state.get("standalone_question") or state["question"]
+        rewrite = rewrite_query(query)
 
+        return {
+            "rewritten_query": rewrite.rewritten_query,
+            "search_queries": rewrite.search_queries,
+            "intent": rewrite.intent,
+            "needs_context": state.get("needs_context") or rewrite.needs_context,
+            "missing_context": state.get("missing_context") or rewrite.missing_context,
+            "status": "rewritten",
+            "steps": [
+                {
+                    "node": "rewrite",
+                    "status": "success",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "data": rewrite.model_dump(),
+                }
+            ],
+        }
 
-def clarify_node(state: MemoryRAGState) -> Dict[str, Any]:
-    pass
-
-
-def retrieve_node(state: MemoryRAGState) -> Dict[str, Any]:
-    pass
-
-
-def retry_retrieve_node(state: MemoryRAGState) -> Dict[str, Any]:
-    pass
+    except Exception as e:
+        return {
+            "status": "failed",
+            "errors": [f"rewrite_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "rewrite",
+                    "status": "error",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def answer_node(state: MemoryRAGState) -> Dict[str, Any]:
-    pass
+    try:
+        if not state["evidence"]:
+            answer = "根据现有资料无法确定。"
 
+            return {
+                "answerable": False,
+                "answer": answer,
+                "citations": [],
+                "confidence": 0.0,
+                "missing_information": "没有检索到可用证据。",
+                "messages": [AIMessage(content=answer)],
+                "status": "answered",
+                "steps": [
+                    {
+                        "node": "answer",
+                        "status": "no_evidence",
+                        "time": datetime.utcnow().isoformat() + "Z",
+                    }
+                ],
+            }
 
-def route_after_rewrite(state: MemoryRAGState) -> str:
-    pass
+        result = answer_with_structured_output(
+            question=state["standalone_question"] or state["question"],
+            retrieved_chunks=state["evidence"],
+        )
 
+        return {
+            "answerable": result.answerable,
+            "answer": result.answer,
+            "citations": result.citations,
+            "confidence": result.confidence,
+            "missing_information": result.missing_information,
+            "messages": [AIMessage(content=result.answer)],
+            "status": "answered",
+            "steps": [
+                {
+                    "node": "answer",
+                    "status": "success",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "data": result.model_dump(),
+                }
+            ],
+        }
 
-def route_after_answer(state: MemoryRAGState) -> str:
-    pass
-
-
-def initial_state(question: str) -> MemoryRAGState:
-    pass
+    except Exception as e:
+        return {
+            "status": "failed",
+            "errors": [f"answer_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "answer",
+                    "status": "error",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def make_turn_input(question: str) -> Dict[str, Any]:
