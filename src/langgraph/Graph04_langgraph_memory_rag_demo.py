@@ -1,3 +1,5 @@
+from langchain_core.messages import HumanMessage
+from langgraph.graph import StateGraph, START, END
 import json
 import os
 from datetime import datetime
@@ -13,10 +15,12 @@ import operator
 
 from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
-
+from langgraph.checkpoint.memory import InMemorySaver
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com")
+client = OpenAI(
+    api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com"
+)
 
 
 class MemoryRAGState(TypedDict):
@@ -62,6 +66,222 @@ class ContextualizedQuestion(BaseModel):
         description="Whether the question still lacks necessary context."
     )
     missing_context: str | None = Field(
-        default=None,
-        description="What context is still missing."
+        default=None, description="What context is still missing."
     )
+
+
+def messages_to_text(messages) -> str:
+    lines = []
+    for msg in messages[-8:]:
+        role = msg.type
+        content = msg.content
+        lines.append(f"{role}: {content}")
+    return "\n".join(lines)
+
+
+def contextualize_question_node(state: MemoryRAGState) -> Dict[str, Any]:
+    try:
+        history_text = messages_to_text(state["messages"])
+        question = state["question"]
+        prompt = f"""
+你是一个多轮对话中的问题改写器。
+
+你的任务是根据 conversation history，把当前用户问题改写成一个独立、清晰、可检索的问题。
+
+要求：
+1. 如果当前问题包含“这个、那个、它、那、上面、刚才”等指代，请结合历史补全。
+2. 不要回答问题，只改写问题。
+3. 如果历史仍不足以确定指代，needs_context=true。
+4. 输出严格 JSON。
+
+Conversation history:
+{history_text}
+
+Current user question:
+{question}
+
+输出 JSON：
+{{
+  "standalone_question": "string",
+  "needs_context": false,
+  "missing_context": null
+}}
+""".strip()
+        response = client.chat.completions.create(
+            model="deepseek-v4-pro",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You rewrite multi-turn user questions into standalone retrieval questions.",
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+            temperature=0,
+            response_format={"type": "json_object"},
+        )
+
+        data = json.loads(response.choices[0].message.content)
+        result = ContextualizedQuestion.model_validate(data)
+
+        return {
+            "standalone_question": result.standalone_question,
+            "needs_context": result.needs_context,
+            "missing_context": result.missing_context,
+            "status": "contextualized",
+            "steps": [
+                {
+                    "node": "contextualize_question",
+                    "status": "success",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "data": result.model_dump(),
+                }
+            ],
+        }
+
+    except Exception as e:
+        return {
+            "status": "failed",
+            "errors": [f"contextualize_question_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "contextualize_question",
+                    "status": "error",
+                    "time": datetime.utcnow().isoformat() + "Z",
+                    "error": str(e),
+                }
+            ],
+        }
+
+
+def rewrite_node(state: MemoryRAGState) -> Dict[str, Any]:
+    pass
+
+
+def clarify_node(state: MemoryRAGState) -> Dict[str, Any]:
+    pass
+
+
+def retrieve_node(state: MemoryRAGState) -> Dict[str, Any]:
+    pass
+
+
+def retry_retrieve_node(state: MemoryRAGState) -> Dict[str, Any]:
+    pass
+
+
+def answer_node(state: MemoryRAGState) -> Dict[str, Any]:
+    pass
+
+
+def route_after_rewrite(state: MemoryRAGState) -> str:
+    pass
+
+
+def route_after_answer(state: MemoryRAGState) -> str:
+    pass
+
+
+def initial_state(question: str) -> MemoryRAGState:
+    pass
+
+
+def make_turn_input(question: str) -> Dict[str, Any]:
+    return {
+        "question": question,
+        "messages": [HumanMessage(content=question)],
+        "standalone_question": None,
+        "rewritten_query": None,
+        "search_queries": [],
+        "intent": None,
+        "needs_context": False,
+        "missing_context": None,
+        "candidates": [],
+        "evidence": [],
+        "answerable": None,
+        "answer": None,
+        "citations": [],
+        "confidence": None,
+        "missing_information": None,
+        "steps": [],
+        "errors": [],
+        "status": "started",
+        "retry_count": 0,
+    }
+
+
+def build_graph():
+    graph = StateGraph(MemoryRAGState)
+    graph.add_node("contextualize_question", contextualize_question_node)
+    graph.add_node("rewrite", rewrite_node)
+    graph.add_node("clarify", clarify_node)
+    graph.add_node("retrieve", retrieve_node)
+    graph.add_node("retry_retrieve", retry_retrieve_node)
+    graph.add_node("answer", answer_node)
+
+    # 1. Start from here , Get the content from the memory.
+    graph.add_edge(START, "contextualize_question")
+
+    # 2. After enough content, then rewrite the user's prompt.
+    graph.add_edge("contextualize_question", "rewrite")
+
+    # 3. After rewrite and syntax check, use the prompt to clarify/ retrieve
+    graph.add_conditional_edges(
+        "rewrite",
+        route_after_rewrite,
+        {
+            "clarify": "clarify",
+            "retrieve": "retrieve",
+            "end": END,
+        },
+    )
+
+    # 4. If context is not enough, go to clarify node to ask user.
+    graph.add_edge("clarify", END)
+    graph.add_edge("retrieve", "answer")
+
+    graph.add_conditional_edges(
+        "answer",
+        route_after_answer,
+        {
+            "retry": "retry_retrieve",
+            "end": END,
+        },
+    )
+
+    graph.add_edge("retry_retrieve", "answer")
+
+    return graph.compile(checkpointer=InMemorySaver())
+
+
+def main():
+    app = build_graph()
+    thread_id = input("Thread ID: ").strip() or "memory-demo-thread"
+
+    config = {"configurable": {"thread_id": thread_id}}
+
+    while True:
+        question = input("\nUser: ").strip()
+        if question.lower() in {"q", "quit", "exit"}:
+            break
+
+        result = app.invoke(
+            make_turn_input(question),
+            config=config,
+        )
+
+        print("\nAssistant:")
+        print(result.get("answer"))
+
+        print("\nStandalone Question:")
+        print(result.get("standalone_question"))
+
+        print("\nMessages:")
+        for msg in result.get("messages", [])[-6:]:
+            print(msg.type, ":", msg.content)
+
+
+if __name__ == "__main__":
+    main()
