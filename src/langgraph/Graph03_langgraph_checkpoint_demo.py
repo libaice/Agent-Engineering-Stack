@@ -22,6 +22,13 @@ from langgraph.Graph02_langgraph_conditional_rag_demo import (
     initial_state
 )
 
+def print_state_history(app, config):
+    print("\nState History")
+    print("=" * 80)
+
+    for state in app.get_state_history(config):
+        print(state)
+        print("-" * 80)
 
 def build_graph():
     graph = StateGraph(RAGState)
@@ -105,10 +112,7 @@ def main():
             for err in result["errors"]:
                 print(err)
 
-        print("\nLatest State Snapshot")
-        print("=" * 80)
-        latest_state = app.get_state(config)
-        print(latest_state)
+        print_state_history(app, config)
 
 
 
