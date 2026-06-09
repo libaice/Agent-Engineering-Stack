@@ -1,0 +1,11 @@
+{
+  "run_id": "run_abc",
+  "thread_id": "thread_001",
+  "question": "...",
+  "answer": "...",
+  "answerable": true,
+  "latency_ms": 5231,
+  "steps": [...],
+  "errors": [],
+  "created_at": "..."
+}
