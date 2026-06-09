@@ -5,6 +5,8 @@ from typing import List, Dict, Any, Optional
 from uuid import uuid4
 
 
+import jieba
+
 MEMORY_PATH = Path("storage/memory.json")
 
 
@@ -77,6 +79,9 @@ class JsonMemoryStore:
         memories = self._load()
         query_lower = query.lower()
 
+        # Tokenize query using jieba for robust Chinese matching
+        query_tokens = [t.lower() for t in jieba.cut(query_lower) if t.strip()]
+
         scored = []
 
         for memory in memories:
@@ -91,10 +96,12 @@ class JsonMemoryStore:
 
             score = 0
 
-            for token in query_lower.split():
+            # Match individual tokens
+            for token in query_tokens:
                 if token in text:
                     score += 1
 
+            # Bonus for exact full match
             if query_lower in text:
                 score += 3
 
