@@ -36,9 +36,19 @@ from langgraph.Graph02_langgraph_conditional_rag_demo import (
 
 from memory.memory_store import JsonMemoryStore
 
+from langsmith.wrappers import wrap_openai
+import rag.Step12_structured_answer_demo as step12
+import rag.Step13_query_rewrite_demo as step13
+
+# Wrap client modules for LangSmith tracking dynamically
+step12.client = wrap_openai(step12.client)
+step13.client = wrap_openai(step13.client)
+
 load_dotenv()
-client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com"
+client = wrap_openai(
+    OpenAI(
+        api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com"
+    )
 )
 
 
