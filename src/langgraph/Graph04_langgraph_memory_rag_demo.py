@@ -257,7 +257,19 @@ def rewrite_node(state: MemoryRAGState) -> Dict[str, Any]:
 
 def answer_node(state: MemoryRAGState) -> Dict[str, Any]:
     try:
-        if not state["evidence"]:
+        # Format long term memories as pseudo evidence chunks
+        memories = state.get("long_term_memories") or []
+        formatted_evidence = list(state.get("evidence") or [])
+
+        for m in memories:
+            formatted_evidence.append({
+                "score": 1.0,
+                "source": f"memory:{m['type']}",
+                "chunk_id": m["memory_id"],
+                "text": f"Memory: {m['name']}\nContent: {m['content']}"
+            })
+
+        if not formatted_evidence:
             answer = "根据现有资料无法确定。"
 
             return {
@@ -279,7 +291,7 @@ def answer_node(state: MemoryRAGState) -> Dict[str, Any]:
 
         result = answer_with_structured_output(
             question=state["standalone_question"] or state["question"],
-            retrieved_chunks=state["evidence"],
+            retrieved_chunks=formatted_evidence,
         )
 
         return {
@@ -350,7 +362,9 @@ def build_graph():
     graph.add_node("answer", answer_node)
 
     # 1. Start from here , Get the content from the memory.
-    graph.add_edge(START, "contextualize_question")
+    graph.add_edge(START, "load_memory")
+
+    graph.add_edge("load_memory", "contextualize_question")
 
     # 2. After enough content, then rewrite the user's prompt.
     graph.add_edge("contextualize_question", "rewrite")
