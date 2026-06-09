@@ -39,10 +39,68 @@ class JsonMemoryStore:
         importance: float = 0.5,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
+
+        memories = self._load()
+
+        memory = {
+            "memory_id": f"mem_{uuid4().hex[:8]}",
+            "type": memory_type,
+            "name": name,
+            "aliases": aliases or [],
+            "content": content,
+            "importance": importance,
+            "metadata": metadata or {},
+            "created_at": now(),
+            "updated_at": now(),
+        }
+        memories.append(memory)
+        self._save(memories)
+
+        return memory
+
         pass
+
+    def format_memories(self, memories: List[Dict[str, Any]]) -> str:
+        if not memories:
+            return "no long term memory。"
+        blocks = []
+
+        for m in memories:
+            blocks.append(
+                f"- [{m['memory_id']}] type={m['type']} name={m['name']}\n"
+                f"  aliases={m.get('aliases', [])}\n"
+                f"  content={m['content']}"
+            )
+        return "\n".join(blocks)
 
     def search_memories(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
-        pass
+        memories = self._load()
+        query_lower = query.lower()
 
+        scored = []
 
+        for memory in memories:
+            text = " ".join(
+                [
+                    memory.get("name", ""),
+                    " ".join(memory.get("aliases", [])),
+                    memory.get("content", ""),
+                    json.dumps(memory.get("metadata", {}), ensure_ascii=False),
+                ]
+            ).lower()
 
+            score = 0
+
+            for token in query_lower.split():
+                if token in text:
+                    score += 1
+
+            if query_lower in text:
+                score += 3
+
+            if score > 0:
+                scored.append((score + memory.get("importance", 0), memory))
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+
+        return [m for _, m in scored[:top_k]]

@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from typing import TypedDict, List, Dict, Any, Optional, Annotated
 import operator
 
-from langchain_core.messages import AnyMessage,AIMessage
+from langchain_core.messages import AnyMessage, AIMessage
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import InMemorySaver
 
@@ -24,8 +24,6 @@ from rag.Step08_hybrid_search_demo import HybridSearchStore
 from rag.Step09_rerank_demo import Reranker
 from rag.Step12_structured_answer_demo import answer_with_structured_output
 
-
-
 from langgraph.Graph02_langgraph_conditional_rag_demo import (
     RAGState,
     clarify_node,
@@ -33,8 +31,10 @@ from langgraph.Graph02_langgraph_conditional_rag_demo import (
     retry_retrieve_node,
     route_after_rewrite,
     route_after_answer,
-    initial_state
+    initial_state,
 )
+
+from memory.memory_store import JsonMemoryStore
 
 load_dotenv()
 client = OpenAI(
@@ -49,6 +49,9 @@ class MemoryRAGState(TypedDict):
     # latest user input
     question: str
     standalone_question: Optional[str]
+
+    # long term memory
+    long_term_memories: List[Dict[str, Any]]
 
     # query understanding
     rewritten_query: Optional[str]
@@ -87,6 +90,46 @@ class ContextualizedQuestion(BaseModel):
     missing_context: str | None = Field(
         default=None, description="What context is still missing."
     )
+
+
+memory_store = JsonMemoryStore()
+
+
+def load_memory_node(state: MemoryRAGState) -> Dict[str, Any]:
+    try:
+        query = state["question"]
+
+        memories = memory_store.search_memories(
+            query=query,
+            top_k=5,
+        )
+
+        return {
+            "long_term_memories": memories,
+            "steps": [
+                {
+                    "node": "load_memory",
+                    "status": "success",
+                    "data": {
+                        "num_memories": len(memories),
+                        "memory_ids": [m["memory_id"] for m in memories],
+                        "memory_names": [m["name"] for m in memories],
+                    },
+                }
+            ],
+        }
+
+    except Exception as e:
+        return {
+            "errors": [f"load_memory_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "load_memory",
+                    "status": "error",
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def messages_to_text(messages) -> str:
@@ -298,6 +341,7 @@ def make_turn_input(question: str) -> Dict[str, Any]:
 
 def build_graph():
     graph = StateGraph(MemoryRAGState)
+    graph.add_node("load_memory", load_memory_node)
     graph.add_node("contextualize_question", contextualize_question_node)
     graph.add_node("rewrite", rewrite_node)
     graph.add_node("clarify", clarify_node)
