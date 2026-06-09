@@ -1,34 +1,25 @@
-from typing import TypedDict, List, Dict, Any, Optional, Annotated
-import operator
+from typing import TypedDict, List, Dict, Any, Optional
+from datetime import datetime
+
+from tool.Tool01_tools_demo import ToolContext
+
+from tool.Tool02_tool_router_demo import decide_tool
 
 
-class RAGAgentState(TypedDict):
-    # original input
+class AgentState(TypedDict):
     question: str
-
-    # query understanding
-    intent: Optional[str]
-    rewritten_query: Optional[str]
-    search_queries: List[str]
-    needs_context: bool
-    missing_context: Optional[str]
-
-    # retrieval
-    candidates: List[Dict[str, Any]]
+    steps: List[Dict[str, Any]]
+    tool_calls: List[Dict[str, Any]]
     evidence: List[Dict[str, Any]]
+    answer: Optional[Dict[str, Any]]
+    errors: List[str]
 
-    # tool / execution trace
-    tool_calls: Annotated[List[Dict[str, Any]], operator.add]
-    steps: Annotated[List[Dict[str, Any]], operator.add]
-    errors: Annotated[List[str], operator.add]
 
-    # answer
-    answerable: Optional[bool]
-    answer: Optional[str]
-    citations: List[int]
-    confidence: Optional[float]
-    missing_information: Optional[str]
 
-    # control
-    retry_count: int
-    status: str
+def main():
+    print("hello,State ")
+
+
+
+if __name__ == "__main__":
+    main()
