@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 
 
 class RAGState(TypedDict):
@@ -53,16 +53,162 @@ store = HybridSearchStore()
 reranker = Reranker()
 
 
+def now() -> str:
+    return datetime.utcnow().isoformat() + "Z"
+
+
 def rewrite_node(state: RAGState) -> Dict[str, Any]:
-    pass
+    print(f"\n[{now()}] === 开始执行 rewrite_node ===")
+    print(f"原始问题: {state['question']}")
+    try:
+        rewrite = rewrite_query(state["question"])
+        print(f"[{now()}] --- rewrite_node 执行成功 ---")
+        print(f"改写后的问题: {rewrite.rewritten_query}")
+        print(f"生成子查询数: {len(rewrite.search_queries)} {rewrite.search_queries}")
+        print(f"用户意图: {rewrite.intent}")
+        return {
+            "rewritten_query": rewrite.rewritten_query,
+            "search_queries": rewrite.search_queries,
+            "intent": rewrite.intent,
+            "needs_context": rewrite.needs_context,
+            "missing_context": rewrite.missing_context,
+            "status": "rewritten",
+            "steps": [
+                {
+                    "node": "rewrite",
+                    "status": "success",
+                    "time": now(),
+                    "data": rewrite.model_dump(),
+                }
+            ],
+        }
+    except Exception as e:
+        print(f"[{now()}] --- rewrite_node 发生错误: {e} ---")
+        return {
+            "status": "failed",
+            "errors": [f"rewrite_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "rewrite",
+                    "status": "error",
+                    "time": now(),
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def retrieve_node(state: RAGState) -> Dict[str, Any]:
-    pass
+    print(f"\n[{now()}] === 开始执行 retrieve_node ===")
+    print(f"检索查询词: {state['search_queries']}")
+    try:
+        candidates = multi_query_search(
+            store=store,
+            search_queries=state["search_queries"],
+            per_query_k=10,
+        )
+        print(f"[{now()}] 召回候选块数量: {len(candidates)}")
+        print("开始使用 Cross-Encoder 进行重排 (耗时较长)...")
+        evidence = reranker.rerank(
+            query=state["rewritten_query"] or state["question"],
+            candidates=candidates,
+            top_k=5,
+        )
+        print(f"[{now()}] --- retrieve_node 执行成功 ---")
+        print(f"重排后保留的证据数: {len(evidence)}")
+        return {
+            "candidates": candidates,
+            "evidence": evidence,
+            "status": "retrieved",
+            "steps": [
+                {
+                    "node": "retrieve",
+                    "status": "success",
+                    "time": now(),
+                    "data": {
+                        "num_candidates": len(candidates),
+                        "num_evidence": len(evidence),
+                        "top_chunk_ids": [item.get("chunk_id") for item in evidence],
+                    },
+                }
+            ],
+        }
+
+    except Exception as e:
+        print(f"[{now()}] --- retrieve_node 发生错误: {e} ---")
+        return {
+            "status": "failed",
+            "errors": [f"retrieve_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "retrieve",
+                    "status": "error",
+                    "time": now(),
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def answer_node(state: RAGState) -> Dict[str, Any]:
-    pass
+    print(f"\n[{now()}] === 开始执行 answer_node ===")
+    try:
+        if not state["evidence"]:
+            print(f"[{now()}] 无证据，直接拒绝回答。")
+            return {
+                "answerable": False,
+                "answer": "根据现有资料无法确定。",
+                "citations": [],
+                "confidence": 0.0,
+                "missing_information": "没有检索到可用证据。",
+                "status": "done",
+                "steps": [
+                    {
+                        "node": "answer",
+                        "status": "no_evidence",
+                        "time": now(),
+                    }
+                ],
+            }
+
+        print(f"证据数量: {len(state['evidence'])}，开始调用 LLM 生成回答...")
+        result = answer_with_structured_output(
+            question=state["question"],
+            retrieved_chunks=state["evidence"],
+        )
+        print(f"[{now()}] --- answer_node 执行成功 ---")
+        print(f"可回答性 (answerable): {result.answerable}")
+        print(f"置信度 (confidence): {result.confidence}")
+        return {
+            "answerable": result.answerable,
+            "answer": result.answer,
+            "citations": result.citations,
+            "confidence": result.confidence,
+            "missing_information": result.missing_information,
+            "status": "done",
+            "steps": [
+                {
+                    "node": "answer",
+                    "status": "success",
+                    "time": now(),
+                    "data": result.model_dump(),
+                }
+            ],
+        }
+    except Exception as e:
+        print(f"[{now()}] --- answer_node 发生错误: {e} ---")
+        return {
+            "status": "failed",
+            "errors": [f"answer_node failed: {e}"],
+            "steps": [
+                {
+                    "node": "answer",
+                    "status": "error",
+                    "time": now(),
+                    "error": str(e),
+                }
+            ],
+        }
 
 
 def build_graph():

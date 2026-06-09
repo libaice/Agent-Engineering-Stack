@@ -15,18 +15,6 @@ client = OpenAI(
 )
 
 
-# response = client.chat.completions.create(
-#     model="deepseek-v4-pro",
-#     messages=[
-#         {"role": "system", "content": "You are a helpful assistant"},
-#         {"role": "user", "content": "Hello, who are you , and what is your training time ?"},
-#     ],
-#     stream=False,
-#     reasoning_effort="high",
-#     extra_body={"thinking": {"type": "enabled"}}
-# )
-
-
 def format_evidence(results: List[Dict[str, Any]]) -> str:
     """
     Convert retrieved chunks into evidence blocks.
@@ -78,6 +66,7 @@ Question:
 
 Answer in Chinese:
 """.strip()
+
 
 def answer_with_llm(question: str, retrieved_chunks: List[Dict[str, Any]]) -> str:
     evidence = format_evidence(retrieved_chunks)
@@ -135,5 +124,23 @@ def main():
         print(answer)
 
 
+def main1():
+    response = client.chat.completions.create(
+        model="deepseek-v4-flash",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant"},
+            {
+                "role": "user",
+                "content": "Hello, who are you , and what is your training time ?",
+            },
+        ],
+        stream=False,
+        reasoning_effort="high",
+        extra_body={"thinking": {"type": "enabled"}},
+    )
+    print(response.choices[0].message.content)
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    main1()
