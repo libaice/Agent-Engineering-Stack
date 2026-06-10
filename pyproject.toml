@@ -36,6 +36,7 @@ dependencies = [
     "sentence-transformers>=5.5.1",
     "uvicorn>=0.49.0",
     "langchain-deepseek>=1.1.0",
+    "langchain-huggingface>=1.2.2",
 ]
 
 [build-system]
