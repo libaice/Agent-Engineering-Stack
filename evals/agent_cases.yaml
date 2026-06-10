@@ -1,67 +1,66 @@
-- id: bafo_lookup_001
-  question: "什么是BAFO？"
+- id: rag_strategy_comparison
+  question: "实验比较了哪三种切分策略？"
   should_answer: true
   expected_answer_contains:
-    - "最佳"
-    - "最终"
-    - "要约"
+    - "固定字符切分"
+    - "段落感知切分"
+    - "句子感知切分"
   expected_standalone_question_contains:
-    - "BAFO"
+    - "切分策略"
   expected_evidence_pages:
     - 3
   citation_required: true
   tags:
     - rag
-    - abbreviations
+    - chunking
 
-- id: ppsd_definition_001
-  question: "什么是项目发展采购战略 (PPSD)？"
+- id: user_roles_boundary
+  question: "平台将用户分为什么角色？"
   should_answer: true
   expected_answer_contains:
-    - "采购"
-    - "战略"
+    - "Viewer"
+    - "Contributor"
+    - "Maintainer"
+    - "Admin"
   expected_standalone_question_contains:
-    - "PPSD"
+    - "角色"
   expected_evidence_pages:
-    - 4
-    - 8
+    - 3
   citation_required: true
   tags:
     - rag
-    - definition
+    - architecture
 
-- id: unanswerable_mars_001
-  question: "这篇文档有提及如何建造火星移民飞船吗？"
+- id: unanswerable_founder_001
+  question: "这个平台创始人是谁？"
   should_answer: false
   expected_answer_contains:
     - "根据现有资料无法确定"
   expected_standalone_question_contains:
-    - "火星"
+    - "创始人"
   expected_evidence_pages: []
   citation_required: false
   tags:
     - unanswerable
     - hallucination_guard
 
-- id: multi_turn_swot_001
+- id: multi_turn_retrieval_eval
   conversation:
     - role: user
-      content: "什么是BAFO？"
+      content: "这篇报告将 query 分成了哪三类？"
     - role: assistant
-      content: "BAFO是指最佳和最终要约。"
+      content: "报告将 query 分为三类：near-exact query、paraphrase query 和 cross-document query。"
     - role: user
-      content: "那SWOT呢？"
-  question: "那SWOT呢？"
+      content: "什么是 near-exact query 呢？"
+  question: "什么是 near-exact query 呢？"
   should_answer: true
   expected_standalone_question_contains:
-    - "SWOT"
+    - "near-exact"
   expected_answer_contains:
-    - "优势"
-    - "劣势"
-    - "机会"
-    - "威胁"
+    - "验证链路"
+    - "跑通"
   expected_evidence_pages:
-    - 16
+    - 4
   citation_required: true
   tags:
     - memory
