@@ -167,7 +167,7 @@ else:
                 
             st.dataframe(
                 display_df[["Index", "Source", "Page", "Snippet", "Chunk ID"]],
-                use_container_width=True
+                width="stretch"
             )
             
             # Detailed Inspector accordion
