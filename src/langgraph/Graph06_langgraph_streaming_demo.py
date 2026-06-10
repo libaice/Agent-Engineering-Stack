@@ -21,7 +21,8 @@ def main():
         for update in app.stream(
             make_turn_input(question),
             config=config,
-            stream_mode="values",
+            stream_mode="updates",
+            # stream_mode="values",
         ):
             print(update)
 
@@ -40,6 +41,50 @@ def main():
                 "confidence": final_state.get("confidence"),
             }
         )
+
+
+def update_to_ui_event(update: dict) -> dict:
+    node_name = list(update.keys())[0]
+    payload = update[node_name]
+
+    if node_name == "rewrite":
+        return {
+            "type": "node_completed",
+            "node": "rewrite",
+            "title": "Query rewrite completed",
+            "data": {
+                "rewritten_query": payload.get("rewritten_query"),
+                "search_queries": payload.get("search_queries"),
+            },
+        }
+
+    if node_name == "retrieve":
+        return {
+            "type": "node_completed",
+            "node": "retrieve",
+            "title": "Retrieved evidence",
+            "data": {
+                "num_candidates": len(payload.get("candidates", [])),
+                "num_evidence": len(payload.get("evidence", [])),
+            },
+        }
+
+    if node_name == "answer":
+        return {
+            "type": "node_completed",
+            "node": "answer",
+            "title": "Answer generated",
+            "data": {
+                "answer": payload.get("answer"),
+                "citations": payload.get("citations"),
+            },
+        }
+
+    return {
+        "type": "node_completed",
+        "node": node_name,
+        "data": payload,
+    }
 
 
 if __name__ == "__main__":
