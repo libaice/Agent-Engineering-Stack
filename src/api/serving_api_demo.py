@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import json
 from typing import Any, Dict, List, Optional, Literal
 from pydantic import BaseModel, Field
 import uvicorn
 
+from langfuse.langchain import CallbackHandler
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 
@@ -29,7 +33,18 @@ def stream_run(payload: StreamRequest):
     question = payload.question
     thread_id = payload.thread_id
 
-    config = {"configurable": {"thread_id": thread_id}}
+    # 3. 创建 CallbackHandler
+    langfuse_handler = CallbackHandler()
+
+    # 4. 配置运行参数，通过 callbacks 传入，使用 run_name 作为 Trace 名称，同时将 thread_id 绑定为 langfuse_session_id
+    config = {
+        "configurable": {"thread_id": thread_id},
+        "callbacks": [langfuse_handler],
+        "run_name": "RAG-Agent-Stream-Serving",
+        "metadata": {
+            "langfuse_session_id": thread_id,  # 关联多轮对话 Session
+        }
+    }
 
     def event_generator():
         # 1. 逐步迭代 graph 节点的运行状态并流式输出
