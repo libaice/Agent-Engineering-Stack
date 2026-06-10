@@ -13,7 +13,7 @@ from fastapi.responses import StreamingResponse
 
 from langgraph.Graph04_langgraph_memory_rag_demo import build_graph, make_turn_input
 from langgraph.Graph06_langgraph_streaming_demo import update_to_ui_event
-from langgraph.prebuilt import InMemoryRunStore
+from api.store.run_store import InMemoryRunStore
 
 
 load_dotenv()
