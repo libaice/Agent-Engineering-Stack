@@ -14,6 +14,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# uv run --with streamlit streamlit run src/tool/inspect_faiss_gui.py
+
 # Custom CSS for Premium Design
 st.markdown("""
 <style>
@@ -121,8 +123,12 @@ else:
         
         df = pd.DataFrame(all_docs)
         
-        # Tabs for Search and Browse
-        tab1, tab2 = st.tabs(["🔎 Semantic Search Test", "🗂️ Browse All Chunks"])
+        # Tabs for Search, Browse, and Visualization
+        tab1, tab2, tab3 = st.tabs([
+            "🔎 Semantic Search Test", 
+            "🗂️ Browse All Chunks", 
+            "🌐 Vector Space Visualization (PCA)"
+        ])
         
         with tab1:
             st.subheader("Interactive Retrieval Tester")
@@ -182,3 +188,34 @@ else:
                 with col_right:
                     st.info("⚙️ **Metadata Dictionary**")
                     st.json(selected_row["Metadata"])
+
+        with tab3:
+            st.subheader("2D Projection of Vector Space (PCA)")
+            st.markdown("This chart projects the 512-dimensional document vectors into a 2D plane using Principal Component Analysis (PCA via SVD). Points that are closer together share similar semantic content.")
+            
+            import numpy as np
+            
+            # Reconstruct all vectors from FAISS index
+            vectors = np.array([index.reconstruct(i) for i in range(index.ntotal)])
+            
+            # Center the vectors
+            mean = np.mean(vectors, axis=0)
+            centered = vectors - mean
+            
+            # Compute Singular Value Decomposition (SVD) for dimensionality reduction
+            U, S, Vt = np.linalg.svd(centered, full_matrices=False)
+            coords_2d = np.dot(centered, Vt.T[:, :2])
+            
+            # Add Coordinates to Visualization DataFrame
+            viz_df = df.copy()
+            viz_df["PCA Dimension 1"] = coords_2d[:, 0]
+            viz_df["PCA Dimension 2"] = coords_2d[:, 1]
+            
+            # Render interactive Streamlit Scatter Chart
+            st.scatter_chart(
+                viz_df,
+                x="PCA Dimension 1",
+                y="PCA Dimension 2",
+                color="Source",
+                width="stretch"
+            )
