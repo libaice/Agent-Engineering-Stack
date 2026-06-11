@@ -42,6 +42,7 @@ dependencies = [
     "psycopg2-binary>=2.9.12",
     "pgvector>=0.4.2",
     "pymilvus[milvus-lite]>=3.0.0",
+    "qdrant-client>=1.18.0",
 ]
 
 [build-system]
