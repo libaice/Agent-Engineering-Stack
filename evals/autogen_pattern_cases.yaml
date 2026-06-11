@@ -1,0 +1,64 @@
+- id: autogen_opportunity_001
+  question: "分析 PMI Agent 的报价、付款、交付周期、范围和风险，判断是否值得推进。"
+  expected_agents:
+    - PlannerAgent
+    - ResearchAgent
+    - AnalystAgent
+    - CriticAgent
+  expected_tool_calls:
+    - retrieve_project_documents
+  expected_final_contains:
+    - "pass"
+  forbidden_final_contains:
+    - "创始人"
+    - "100000"
+    - "已签约"
+  required_citations:
+    - "[1]"
+    - "[2]"
+    - "[3]"
+  tags:
+    - autogen_pattern
+    - conversation
+    - multi_agent
+    - opportunity
+
+- id: autogen_pricing_001
+  question: "PMI Agent 的报价和付款方式是什么？"
+  expected_agents:
+    - PlannerAgent
+    - ResearchAgent
+    - AnalystAgent
+    - CriticAgent
+  expected_tool_calls:
+    - retrieve_project_documents
+  expected_final_contains:
+    - "pass"
+  forbidden_final_contains:
+    - "30000"
+    - "100000"
+  required_citations:
+    - "[1]"
+  tags:
+    - autogen_pattern
+    - pricing
+
+- id: autogen_risk_001
+  question: "PMI Agent 的主要风险是什么？"
+  expected_agents:
+    - PlannerAgent
+    - ResearchAgent
+    - AnalystAgent
+    - CriticAgent
+  expected_tool_calls:
+    - retrieve_project_documents
+  expected_final_contains:
+    - "pass"
+  forbidden_final_contains:
+    - "没有风险"
+    - "风险极低"
+  required_citations:
+    - "[3]"
+  tags:
+    - autogen_pattern
+    - risk
