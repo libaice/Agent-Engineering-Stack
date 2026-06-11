@@ -44,6 +44,7 @@ dependencies = [
     "pymilvus[milvus-lite]>=3.0.0",
     "qdrant-client>=1.18.0",
     "pinecone>=9.1.0",
+    "opensearch-py>=3.2.0",
 ]
 
 [build-system]
