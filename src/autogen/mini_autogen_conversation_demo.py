@@ -55,7 +55,6 @@ class PlannerAgent(BaseMiniAgent):
             },
         )
 
-
 class ResearchAgent(BaseMiniAgent):
     def respond(self, messages: List[Message]) -> Message:
         planner_message = messages[-1]
@@ -139,6 +138,8 @@ class CriticAgent(BaseMiniAgent):
                 "issues": issues,
             },
         )
+
+
 def run_conversation(user_question: str) -> List[Message]:
     messages = [
         Message(
@@ -150,6 +151,17 @@ def run_conversation(user_question: str) -> List[Message]:
     ]
 
     planner = PlannerAgent("PlannerAgent")
+    researcher = ResearchAgent("ResearchAgent")
+    analyst = AnalystAgent("AnalystAgent")
+    critic = CriticAgent("CriticAgent")
+
+    for agent in [planner, researcher, analyst, critic]:
+        msg = agent.respond(messages)
+        messages.append(msg)
+
+    return messages
+
+
 
 
 def main():
