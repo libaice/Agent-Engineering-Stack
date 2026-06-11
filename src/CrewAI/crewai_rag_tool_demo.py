@@ -9,7 +9,6 @@ from llama_index.core.llms import LLMMetadata, MessageRole
 from crewai.tools import tool
 from crewai import Agent, Task, Crew, Process, LLM
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-
 load_dotenv()
 
 _retriever = None
