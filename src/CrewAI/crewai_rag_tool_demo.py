@@ -191,7 +191,7 @@ def build_crew():
 
     research_task = Task(
         description=(
-            "Research the PMI Agent project using the retrieve_project_documents tool.\n\n"
+            "Research the project: {project} using the retrieve_project_documents tool to answer this question: {question}.\n\n"
             "Find evidence about:\n"
             "1. Pricing\n"
             "2. Payment terms\n"
@@ -255,20 +255,23 @@ def build_crew():
 def main():
     crew = build_crew()
 
-    result = crew.kickoff(
-        inputs={
-            "project": "PMI Agent",
-            "question": (
-                "分析 PMI Agent 这个项目的报价、付款、交付周期、范围和风险，"
-                "判断是否值得继续推进。"
-            ),
-        }
-    )
+    while True:
+        question = input("\nYour Question (or 'exit' to quit): ").strip()
+        if not question:
+            continue
+        if question.lower() in {"q", "quit", "exit"}:
+            break
 
-    print("\nFinal Result")
-    print("=" * 80)
-    print(result)
-    pass
+        result = crew.kickoff(
+            inputs={
+                "project": "PMI Agent",
+                "question": question,
+            }
+        )
+
+        print("\nFinal Result")
+        print("=" * 80)
+        print(result)
 
 
 if __name__ == "__main__":
