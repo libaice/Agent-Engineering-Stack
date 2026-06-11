@@ -268,7 +268,6 @@ def main():
                 "question": question,
             }
         )
-
         print("\nFinal Result")
         print("=" * 80)
         print(result)
