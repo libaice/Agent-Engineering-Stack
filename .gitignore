@@ -25,3 +25,6 @@ ehthumbs.db
 Thumbs.db
 
 .env
+
+
+/chroma_data 
