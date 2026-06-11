@@ -1,0 +1,60 @@
+- id: crewai_opportunity_memo_001
+  project: "PMI Agent"
+  question: "分析 PMI Agent 这个项目的报价、付款、交付周期、范围和风险，判断是否值得继续推进。"
+  expected_answer_contains:
+    - "8500"
+    - "两周"
+    - "风险"
+  expected_recommendations:
+    - "continue"
+    - "clarify"
+  required_citation_ids:
+    - 1
+    - 2
+    - 3
+  forbidden_answer_contains:
+    - "创始人"
+    - "100000"
+    - "已签约"
+  tags:
+    - crewai
+    - rag
+    - opportunity_memo
+
+- id: crewai_pricing_only_001
+  project: "PMI Agent"
+  question: "PMI Agent 的报价和付款方式是什么？"
+  expected_answer_contains:
+    - "8500"
+    - "50%"
+  expected_recommendations:
+    - "continue"
+    - "clarify"
+  required_citation_ids:
+    - 1
+  forbidden_answer_contains:
+    - "30000"
+    - "100000"
+  tags:
+    - crewai
+    - pricing
+
+- id: crewai_risk_only_001
+  project: "PMI Agent"
+  question: "PMI Agent 的主要风险是什么？"
+  expected_answer_contains:
+    - "数据源"
+    - "流动性"
+    - "引用证据"
+  expected_recommendations:
+    - "continue"
+    - "clarify"
+    - "pause"
+  required_citation_ids:
+    - 3
+  forbidden_answer_contains:
+    - "没有风险"
+    - "风险极低"
+  tags:
+    - crewai
+    - risk

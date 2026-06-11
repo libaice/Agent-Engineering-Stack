@@ -323,5 +323,39 @@ def main():
     print(eval_result)
 
 
+
+def run_crewai_pipeline(question: str, project: str = "PMI Agent") -> dict:
+    crew = build_crew()
+
+    result = crew.kickoff(
+        inputs={
+            "project": project,
+            "question": question,
+        }
+    )
+
+    tasks = result.tasks_output
+
+    evidence_summary = tasks[0].pydantic
+    memo = tasks[1].pydantic
+    review = tasks[2].pydantic
+
+    eval_result = evaluate_critic_result(
+        evidence_summary=evidence_summary,
+        memo=memo,
+        review=review,
+    )
+
+    return {
+        "question": question,
+        "project": project,
+        "crew_result": result,
+        "evidence_summary": evidence_summary,
+        "memo": memo,
+        "review": review,
+        "eval_result": eval_result,
+    }
+
+
 if __name__ == "__main__":
     main()
