@@ -43,6 +43,7 @@ dependencies = [
     "pgvector>=0.4.2",
     "pymilvus[milvus-lite]>=3.0.0",
     "qdrant-client>=1.18.0",
+    "pinecone>=9.1.0",
 ]
 
 [build-system]
